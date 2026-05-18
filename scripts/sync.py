@@ -274,7 +274,8 @@ def fetch_book_data(client: WeReadClient, book_id: str) -> dict:
     now_utc = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
     # 计算各类型数量
-    note_count = len(highlights)
+    # note_count 使用原始 bookmarks 数量，避免"既有划线又有想法"的过滤导致数量不一致
+    note_count = len(bookmarks)
     review_count = len(reviews) + len(book_reviews)
     bookmark_count = 0  # 书签内容不可导出，只统计数量
 
@@ -441,9 +442,20 @@ def sync_full(client: WeReadClient, resume: bool = False, force: bool = True):
     notebooks = client.get_all_notebooks()
     logger.info("共 %d 本有笔记的书籍", len(notebooks))
 
+    # 初始化 Notion 客户端
+    from notion_push import push_single_book, _get_notion_client
+    try:
+        notion_client = _get_notion_client()
+        logger.info("Notion 客户端已初始化")
+    except Exception as e:
+        logger.warning("Notion 初始化失败，将跳过 Notion 推送: %s", e)
+        notion_client = None
+
     synced = 0
     failed = 0
     skipped = 0
+    notion_ok = 0
+    notion_fail = 0
 
     for nb in notebooks:
         book_id = nb.get("bookId", "")
@@ -471,16 +483,22 @@ def sync_full(client: WeReadClient, resume: bool = False, force: bool = True):
 
         try:
             book_data = fetch_book_data(client, book_id)
-            save_book_data(book_data, title, category)
+            json_path = save_book_data(book_data, title, category)
 
-            # 更新索引
+            # 推送 Notion（直接覆盖）
+            if notion_client and json_path:
+                if push_single_book(notion_client, book_data, json_path):
+                    notion_ok += 1
+                else:
+                    notion_fail += 1
+
+            # 更新索引（使用相对路径，避免不同环境路径不一致）
             now_utc = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+            book_dir_rel = Path(extract_category(category)) / get_folder_name(title, book_id)
             index["books"][book_id] = {
                 "title": title,
                 "category": extract_category(category),
-                "path": str(
-                    get_book_file_path(book_id, title, category) / f"{book_id}.json"
-                ),
+                "path": str(book_dir_rel / f"{book_id}.json"),
                 "sort": nb.get("sort", 0),
                 "noteCount": nb.get("noteCount", 0),
                 "reviewCount": nb.get("reviewCount", 0),
@@ -500,8 +518,8 @@ def sync_full(client: WeReadClient, resume: bool = False, force: bool = True):
             continue
 
     logger.info(
-        "全量同步完成: 成功 %d, 失败 %d, 跳过 %d",
-        synced, failed, skipped,
+        "全量同步完成: 成功 %d, 失败 %d, 跳过 %d | Notion: 成功 %d, 失败 %d",
+        synced, failed, skipped, notion_ok, notion_fail,
     )
 
 
@@ -572,14 +590,13 @@ def sync_incremental(client: WeReadClient):
                 else:
                     notion_fail += 1
 
-            # 5. 更新 index.json
+            # 5. 更新 index.json（使用相对路径，避免不同环境路径不一致）
             now_utc = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+            book_dir_rel = Path(extract_category(category)) / get_folder_name(title, book_id)
             index["books"][book_id] = {
                 "title": title,
                 "category": extract_category(category),
-                "path": str(
-                    get_book_file_path(book_id, title, category) / f"{book_id}.json"
-                ),
+                "path": str(book_dir_rel / f"{book_id}.json"),
                 "sort": nb.get("sort", 0),
                 "noteCount": nb.get("noteCount", 0),
                 "reviewCount": nb.get("reviewCount", 0),
@@ -641,13 +658,13 @@ def sync_full_compare(client: WeReadClient):
                 local_last_sync = local_data.get("meta", {}).get("lastSync", "")
 
             # 如果本地数据存在且同步时间相同，跳过
-            remote_last_sync = book_data["meta"]["lastSync"]
-            if local_data and local_last_sync == remote_last_sync:
-                # 仅更新索引中的 sort 和数量
+            if local_data and local_last_sync:
+                # 仅更新索引中的 sort 和数量（使用相对路径）
+                book_dir_rel = Path(extract_category(category)) / get_folder_name(title, book_id)
                 index["books"][book_id] = {
                     "title": title,
                     "category": extract_category(category),
-                    "path": str(json_path),
+                    "path": str(book_dir_rel / f"{book_id}.json"),
                     "sort": nb.get("sort", 0),
                     "noteCount": nb.get("noteCount", 0),
                     "reviewCount": nb.get("reviewCount", 0),
@@ -659,10 +676,11 @@ def sync_full_compare(client: WeReadClient):
             save_book_data(book_data, title, category)
 
             now_utc = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+            book_dir_rel = Path(extract_category(category)) / get_folder_name(title, book_id)
             index["books"][book_id] = {
                 "title": title,
                 "category": extract_category(category),
-                "path": str(json_path),
+                "path": str(book_dir_rel / f"{book_id}.json"),
                 "sort": nb.get("sort", 0),
                 "noteCount": nb.get("noteCount", 0),
                 "reviewCount": nb.get("reviewCount", 0),
