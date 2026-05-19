@@ -15,6 +15,23 @@ _NOTION_RATE_LIMIT = 3
 _last_request_times: list[float] = []
 
 
+class NotionAPIError(Exception):
+    """Notion API 请求异常，携带 HTTP 响应详情"""
+
+    def __init__(self, message: str, status_code: int | None = None, response_body: str | None = None):
+        super().__init__(message)
+        self.status_code = status_code
+        self.response_body = response_body
+
+    def __str__(self) -> str:
+        parts = [super().__str__()]
+        if self.status_code is not None:
+            parts.append(f"status={self.status_code}")
+        if self.response_body is not None:
+            parts.append(f"body={self.response_body}")
+        return " | ".join(parts)
+
+
 def _rate_limit():
     """Notion API 速率限制：每秒最多 3 次请求"""
     now = time.time()
@@ -58,7 +75,17 @@ class NotionClient:
         _rate_limit()
         url = f"{self.base_url}{path}"
         resp = self.session.request(method, url, **kwargs)
-        resp.raise_for_status()
+        if not resp.ok:
+            body = None
+            try:
+                body = resp.text
+            except Exception:
+                pass
+            raise NotionAPIError(
+                f"Notion API {method} {path} 失败",
+                status_code=resp.status_code,
+                response_body=body,
+            )
         return resp.json()
 
     def query_database(self, filter_clause: dict | None = None, 
@@ -180,3 +207,23 @@ class NotionClient:
         if date_prop and date_prop.get("start"):
             return date_prop["start"]
         return ""
+
+    def get_database_properties(self) -> dict:
+        """获取数据库的属性（schema）
+
+        Returns:
+            数据库属性字典，key 为属性名
+        """
+        db = self._request("GET", f"/databases/{self.database_id}")
+        return db.get("properties", {})
+
+    def add_database_property(self, name: str, property_schema: dict):
+        """向数据库添加新属性
+
+        Args:
+            name: 属性名
+            property_schema: 属性 schema，例如 {"rich_text": {}}
+        """
+        body = {"properties": {name: property_schema}}
+        self._request("PATCH", f"/databases/{self.database_id}", json=body)
+        logger.info("数据库属性已创建: %s", name)
