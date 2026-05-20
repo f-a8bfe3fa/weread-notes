@@ -127,12 +127,13 @@ class NotionClient:
             return results[0]
         return None
 
-    def create_page(self, properties: dict, children: list | None = None) -> dict:
+    def create_page(self, properties: dict, children: list | None = None, icon: dict | None = None) -> dict:
         """创建数据库页面
 
         Args:
             properties: 页面属性
             children: 页面内容 blocks
+            icon: 页面图标（外部图片 URL）
 
         Returns:
             创建的页面数据
@@ -143,6 +144,8 @@ class NotionClient:
         }
         if children:
             body["children"] = children
+        if icon:
+            body["icon"] = icon
         return self._request("POST", "/pages", json=body)
 
     def update_page_properties(self, page_id: str, properties: dict) -> dict:
