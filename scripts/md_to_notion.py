@@ -59,14 +59,18 @@ def md_to_blocks(md_content: str) -> list[dict]:
             continue
 
         # 图片（独立行）
-        image_match = re.match(r"^!\[([^\]]*)\]\(([^)]+)\)$", stripped)
-        if image_match:
-            alt_text = image_match.group(1)
-            image_url = image_match.group(2)
-            if image_url.startswith(("http://", "https://")):
-                blocks.append(_image_block(image_url, alt_text))
-                i += 1
-                continue
+        # 支持 alt 文本中包含 ] 的情况，通过查找 ]( 来定位分割点
+        if stripped.startswith("![") and "]" in stripped:
+            close_bracket_idx = stripped.rfind("](")
+            if close_bracket_idx != -1:
+                alt_text = stripped[2:close_bracket_idx]
+                rest = stripped[close_bracket_idx + 2:]
+                if rest.endswith(")"):
+                    image_url = rest[:-1]
+                    if image_url.startswith(("http://", "https://")):
+                        blocks.append(_image_block(image_url, alt_text))
+                        i += 1
+                        continue
 
         # 表格
         if stripped.startswith("|"):
@@ -105,7 +109,7 @@ def md_to_blocks(md_content: str) -> list[dict]:
                 if not current:
                     i += 1
                     continue
-                list_match = re.match(r"^[-*+]\s+(.+)$", all_lines[i])
+                list_match = re.match(r"^[-*+]\s+(.+)$", current)
                 if list_match:
                     list_items.append(list_match.group(1))
                     i += 1
@@ -124,7 +128,7 @@ def md_to_blocks(md_content: str) -> list[dict]:
                 if not current:
                     i += 1
                     continue
-                om = re.match(r"^(\d+)\.\s+(.+)$", all_lines[i])
+                om = re.match(r"^(\d+)\.\s+(.+)$", current)
                 if om:
                     list_items.append(om.group(2))
                     i += 1
@@ -224,35 +228,50 @@ def _rich_text(text: str) -> list[dict]:
     - `行内代码`
     - [链接](url)
 
-    Notion 单个 rich_text part 的 content 上限为 2000 字符，
+    Notion 单个 rich_text part 的 content 上限为 2000 UTF-16 码单元，
     超过时自动分割为多个 part。
     """
     if not text:
         return []
 
-    NOTION_TEXT_LIMIT = 2000
+    NOTION_TEXT_LIMIT = 2000  # UTF-16 码单元限制
+
+    def utf16_len(s: str) -> int:
+        """计算字符串的 UTF-16 码单元数量"""
+        return len(s.encode('utf-16-le')) // 2
 
     # 第一步：解析所有内联格式，生成带格式的 part 列表
     parts = _parse_inline_formats(text)
 
-    # 第二步：分割超过 2000 字符限制的 part
+    # 第二步：分割超过 2000 UTF-16 码单元限制的 part
     final_parts = []
     for part in parts:
         content = part["text"]["content"]
-        if len(content) <= NOTION_TEXT_LIMIT:
+        if utf16_len(content) <= NOTION_TEXT_LIMIT:
             final_parts.append(part)
         else:
-            # 按字符限制分割
-            for i in range(0, len(content), NOTION_TEXT_LIMIT):
-                chunk = content[i:i + NOTION_TEXT_LIMIT]
+            # 按 UTF-16 字符限制分割
+            start = 0
+            while start < len(content):
+                # 计算这一段能容纳多少字符
+                remaining = NOTION_TEXT_LIMIT
+                end = start
+                for i, c in enumerate(content[start:], start=start):
+                    char_len = 2 if ord(c) > 0xFFFF else 1  # astral 字符占 2 个 UTF-16 单元
+                    if remaining - char_len < 0:
+                        break
+                    remaining -= char_len
+                    end = i + 1
+                chunk = content[start:end]
                 chunk_part = {"type": "text", "text": {"content": chunk}}
                 # 保留链接（仅附加到第一个 chunk）
-                if "link" in part.get("text", {}) and i == 0:
+                if "link" in part.get("text", {}) and start == 0:
                     chunk_part["text"]["link"] = part["text"]["link"]
                 # 保留 annotations（仅附加到第一个 chunk）
-                if "annotations" in part and i == 0:
+                if "annotations" in part and start == 0:
                     chunk_part["annotations"] = part["annotations"]
                 final_parts.append(chunk_part)
+                start = end
 
     return final_parts
 
@@ -402,9 +421,14 @@ def _parse_table(lines: list[str]) -> dict | None:
         row_cells = []
         for cell in row:
             row_cells.append(_rich_text(cell))
-        # 补齐列数
+        # 补齐或截断列数，确保与表头一致
         while len(row_cells) < len(headers):
             row_cells.append([])
+        if len(row_cells) > len(headers):
+            # 合并多余的单元格到最后一个单元格
+            extra_text = " | ".join([cell for cell in row[len(headers)-1:] if cell])
+            row_cells = row_cells[:len(headers)-1]
+            row_cells.append(_rich_text(extra_text))
 
         table_children.append({
             "type": "table_row",
