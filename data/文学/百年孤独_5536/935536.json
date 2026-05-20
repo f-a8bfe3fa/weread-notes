@@ -12,18 +12,18 @@
     "isbn": "9787573510921",
     "wordCount": 0,
     "newRating": 893,
-    "newRatingCount": 80693,
+    "newRatingCount": 80694,
     "newRatingDetail": {
-      "good": 72925,
+      "good": 72926,
       "fair": 6910,
       "poor": 858,
       "recent": 522,
-      "deepV": 7542,
+      "deepV": 7543,
       "myRating": "",
       "title": "好评如潮"
     },
     "appLink": "weread://reading?bId=935536",
-    "lastSync": "2026-05-19T19:00:50Z",
+    "lastSync": "2026-05-20T00:48:33Z",
     "readingProgress": "0%",
     "readingTime": "0分钟",
     "finishedDate": "",
@@ -346,7 +346,7 @@
       "chapterUid": 44,
       "range": "11774-11872",
       "markText": "这座镜子之城——或蜃景之城——将在奥雷里亚诺·巴比伦全部译出羊皮卷之时被飓风抹去，从世人记忆中根除，羊皮卷上所载一切自永远至永远不会再重复，因为注定经受百年孤独的家族不会有第二次机会在大地上出现。",
-      "totalCount": 44213,
+      "totalCount": 44226,
       "appLink": "weread://bestbookmark?bookId=935536&chapterUid=44&rangeStart=11774&rangeEnd=11872"
     },
     {
@@ -362,7 +362,7 @@
       "chapterUid": 32,
       "range": "12072-12131",
       "markText": "你那么憎恨军人，跟他们斗了那么久，琢磨了他们那么久，最终却变得和他们一样。人世间没有任何理想值得以这样的沉沦作为代价。",
-      "totalCount": 32793,
+      "totalCount": 32810,
       "appLink": "weread://bestbookmark?bookId=935536&chapterUid=32&rangeStart=12072&rangeEnd=12131"
     },
     {
@@ -370,7 +370,7 @@
       "chapterUid": 44,
       "range": "2700-2752",
       "markText": "不论在什么地方都要记住，过去都是假的，回忆没有归路，春天总是一去不返，最疯狂执著的爱情也终究是过眼云烟。",
-      "totalCount": 27870,
+      "totalCount": 27885,
       "appLink": "weread://bestbookmark?bookId=935536&chapterUid=44&rangeStart=2700&rangeEnd=2752"
     },
     {
@@ -386,7 +386,7 @@
       "chapterUid": 26,
       "range": "11897-11938",
       "markText": "乌尔苏拉没有追上吉卜赛人，却找到了丈夫在失败的远征中没能发现的通向伟大发明的道路。",
-      "totalCount": 19815,
+      "totalCount": 19830,
       "appLink": "weread://bestbookmark?bookId=935536&chapterUid=26&rangeStart=11897&rangeEnd=11938"
     },
     {

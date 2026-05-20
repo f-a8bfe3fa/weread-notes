@@ -12,18 +12,18 @@
     "isbn": "9787544766500",
     "wordCount": 0,
     "newRating": 920,
-    "newRatingCount": 113228,
+    "newRatingCount": 113229,
     "newRatingDetail": {
-      "good": 105684,
+      "good": 105685,
       "fair": 6821,
       "poor": 723,
-      "recent": 645,
+      "recent": 646,
       "deepV": 6535,
       "myRating": "",
       "title": "神作"
     },
     "appLink": "weread://reading?bId=853116",
-    "lastSync": "2026-05-19T19:00:51Z",
+    "lastSync": "2026-05-20T00:48:50Z",
     "readingProgress": "0%",
     "readingTime": "0分钟",
     "finishedDate": "",
@@ -542,7 +542,7 @@
       "chapterUid": 42,
       "range": "2220-2303",
       "markText": "夏天的黄昏悠长而宁静。我和莫迪小姐常常默不作声地坐在她家的前廊上，看夕阳慢慢落下，天空由金黄变成粉红，看一群群紫燕低低地掠过我们这片屋舍，消失在学校的一排排屋顶后面。",
-      "totalCount": 16722,
+      "totalCount": 16740,
       "appLink": "weread://bestbookmark?bookId=853116&chapterUid=42&rangeStart=2220&rangeEnd=2303"
     },
     {
@@ -566,7 +566,7 @@
       "chapterUid": 46,
       "range": "15948-16042",
       "markText": "“杰克！看在老天的分上，当一个孩子问你问题的时候，你要正儿八经地回答，不要东拉西扯，顾左右而言他。虽说孩子毕竟只是孩子，但他们会比成人更敏锐地察觉到你在回避问题，回避只会让他们糊里糊涂。”",
-      "totalCount": 14280,
+      "totalCount": 14297,
       "appLink": "weread://bestbookmark?bookId=853116&chapterUid=46&rangeStart=15948&rangeEnd=16042"
     },
     {
@@ -578,20 +578,20 @@
       "appLink": "weread://bestbookmark?bookId=853116&chapterUid=42&rangeStart=4996&rangeEnd=5057"
     },
     {
+      "bookmarkId": "853116_46_17498-17549",
+      "chapterUid": 46,
+      "range": "17498-17549",
+      "markText": "可我一直都想不明白，阿迪克斯怎么知道我在偷听？许多年过后我才恍然大悟：他其实想让我听见他说的每一个字。",
+      "totalCount": 12510,
+      "appLink": "weread://bestbookmark?bookId=853116&chapterUid=46&rangeStart=17498&rangeEnd=17549"
+    },
+    {
       "bookmarkId": "853116_47_1298-1339",
       "chapterUid": 47,
       "range": "1298-1339",
       "markText": "你们射多少冠蓝鸦都没关系，只要你们能打得着，但要记住一点，杀死一只知更鸟便是犯罪。",
       "totalCount": 12507,
       "appLink": "weread://bestbookmark?bookId=853116&chapterUid=47&rangeStart=1298&rangeEnd=1339"
-    },
-    {
-      "bookmarkId": "853116_46_17498-17549",
-      "chapterUid": 46,
-      "range": "17498-17549",
-      "markText": "可我一直都想不明白，阿迪克斯怎么知道我在偷听？许多年过后我才恍然大悟：他其实想让我听见他说的每一个字。",
-      "totalCount": 12492,
-      "appLink": "weread://bestbookmark?bookId=853116&chapterUid=46&rangeStart=17498&rangeEnd=17549"
     },
     {
       "bookmarkId": "853116_53_11339-11381",
