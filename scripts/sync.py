@@ -488,16 +488,16 @@ def need_sync(book_id: str, remote_book: dict, local_index: dict) -> bool:
     return sort_changed or count_changed or sync_mismatch
 
 
-def sync_full(client: WeReadClient, resume: bool = False, force: bool = True):
+def sync_full(client: WeReadClient, resume: bool = False, force: bool = False):
     """全量同步
 
-    强制重新拉取所有书籍数据，覆盖本地已有数据。
+    拉取所有书籍数据，通过内容哈希比对避免无意义的重建。
     用于数据完整性校验和修复不一致问题。
 
     Args:
         client: API 客户端
         resume: 是否断点续传（跳过已同步的）
-        force: 是否强制覆盖（True=重新拉取所有书，False=同增量逻辑）
+        force: 是否强制覆盖（True=禁用哈希跳过，强制重建所有书）
     """
     logger.info("开始全量同步 (force=%s)", force)
     index = load_index()
@@ -841,6 +841,11 @@ def main():
         action="store_true",
         help="断点续传（仅 full 模式有效）",
     )
+    parser.add_argument(
+        "--no-skip",
+        action="store_true",
+        help="禁用哈希跳过，强制重建所有书（仅 full 模式有效）",
+    )
     args = parser.parse_args()
 
     # 加载环境变量
@@ -859,7 +864,7 @@ def main():
 
     try:
         if args.mode == "full":
-            sync_full(client, resume=args.resume)
+            sync_full(client, resume=args.resume, force=args.no_skip)
         elif args.mode == "incremental":
             sync_incremental(client)
         elif args.mode == "full-compare":
