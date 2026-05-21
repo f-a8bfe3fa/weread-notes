@@ -12,25 +12,26 @@
     "isbn": "9787020016525",
     "wordCount": 0,
     "newRating": 911,
-    "newRatingCount": 113897,
+    "newRatingCount": 113904,
     "newRatingDetail": {
-      "good": 104375,
+      "good": 104382,
       "fair": 8760,
       "poor": 762,
-      "recent": 263,
-      "deepV": 3163,
+      "recent": 266,
+      "deepV": 3165,
       "myRating": "",
       "title": "神作"
     },
     "appLink": "weread://reading?bId=812443",
     "webLink": "https://weread.qq.com/web/reader/47532ac05c659b47554a825",
-    "lastSync": "2026-05-21T01:31:25Z",
+    "lastSync": "2026-05-21T10:54:56Z",
     "readingProgress": "0%",
     "readingTime": "0分钟",
     "finishedDate": "",
-    "noteCount": 2,
-    "reviewCount": 0,
-    "bookmarkCount": 0
+    "noteCount": 1,
+    "reviewCount": 1,
+    "bookmarkCount": 0,
+    "contentHash": "ea51ddfde10e0b4331219f8631c2d66fcc3de0e886f9e3350e46c6a29f539f8a"
   },
   "chapters": [
     {
@@ -586,40 +587,17 @@
       "chapterTitle": "第二章",
       "items": [
         {
-          "type": "highlight",
-          "bookmarkId": "812443_52_6613-6660",
+          "type": "review",
+          "reviewId": "933739075_89gDYYtoV",
           "range": "6613-6660",
-          "rangeStart": 6613,
-          "rangeEnd": 6660,
-          "markText": "凡人们绝对信服圣人的圣言而又不真心实意实行，这并不是圣人的悲剧，而是凡人永远成不了圣人的缘故。",
-          "colorStyle": 3,
-          "colorLabel": "",
-          "createTime": 1779076291,
-          "createTimeFormatted": "2026-05-18 11:51:31",
-          "chapterUid": 52,
-          "appLink": "weread://bestbookmark?bookId=812443&chapterUid=52&rangeStart=6613&rangeEnd=6660",
-          "webLink": "https://weread.qq.com/web/reader/47532ac05c659b47554a825?chapterUid=52&rangeStart=6613&rangeEnd=6660"
-        }
-      ]
-    },
-    {
-      "chapterUid": 84,
-      "chapterTitle": "第三十四章",
-      "items": [
-        {
-          "type": "highlight",
-          "bookmarkId": "812443_84_15527-15610",
-          "range": "15527-15610",
-          "rangeStart": 15527,
-          "rangeEnd": 15610,
-          "markText": "入冬后第一次寒潮侵袭白鹿原的那天夜里，前半夜还听见鹿子霖的嚎叫声，后半夜却屏声静气了。天明时，他的女人鹿贺氏才发现他已经僵硬，刚穿上身的棉裤里屎尿结成黄蜡蜡的冰块……",
-          "colorStyle": 3,
-          "colorLabel": "",
-          "createTime": 1779076288,
-          "createTimeFormatted": "2026-05-18 11:51:28",
-          "chapterUid": 84,
-          "appLink": "weread://bestbookmark?bookId=812443&chapterUid=84&rangeStart=15527&rangeEnd=15610",
-          "webLink": "https://weread.qq.com/web/reader/47532ac05c659b47554a825?chapterUid=84&rangeStart=15527&rangeEnd=15610"
+          "chapterName": "第二章",
+          "content": "测试一下新",
+          "abstract": "凡人们绝对信服圣人的圣言而又不真心实意实行，这并不是圣人的悲剧，而是凡人永远成不了圣人的缘故。",
+          "star": -1,
+          "createTime": 1779360810,
+          "createTimeFormatted": "2026-05-21 18:53:30",
+          "isFinish": false,
+          "chapterUid": 52
         }
       ]
     }
@@ -631,7 +609,7 @@
       "chapterUid": 84,
       "range": "15527-15610",
       "markText": "入冬后第一次寒潮侵袭白鹿原的那天夜里，前半夜还听见鹿子霖的嚎叫声，后半夜却屏声静气了。天明时，他的女人鹿贺氏才发现他已经僵硬，刚穿上身的棉裤里屎尿结成黄蜡蜡的冰块……",
-      "totalCount": 18495,
+      "totalCount": 18525,
       "appLink": "weread://bestbookmark?bookId=812443&chapterUid=84&rangeStart=15527&rangeEnd=15610",
       "webLink": "https://weread.qq.com/web/reader/47532ac05c659b47554a825?chapterUid=84&rangeStart=15527&rangeEnd=15610"
     },
@@ -640,7 +618,7 @@
       "chapterUid": 52,
       "range": "6613-6660",
       "markText": "凡人们绝对信服圣人的圣言而又不真心实意实行，这并不是圣人的悲剧，而是凡人永远成不了圣人的缘故。",
-      "totalCount": 11376,
+      "totalCount": 11408,
       "appLink": "weread://bestbookmark?bookId=812443&chapterUid=52&rangeStart=6613&rangeEnd=6660",
       "webLink": "https://weread.qq.com/web/reader/47532ac05c659b47554a825?chapterUid=52&rangeStart=6613&rangeEnd=6660"
     },
@@ -649,7 +627,7 @@
       "chapterUid": 51,
       "range": "373-395",
       "markText": "白嘉轩后来引以为豪壮的是一生里娶过七房女人。",
-      "totalCount": 9074,
+      "totalCount": 9113,
       "appLink": "weread://bestbookmark?bookId=812443&chapterUid=51&rangeStart=373&rangeEnd=395",
       "webLink": "https://weread.qq.com/web/reader/47532ac05c659b47554a825?chapterUid=51&rangeStart=373&rangeEnd=395"
     },
@@ -658,7 +636,7 @@
       "chapterUid": 51,
       "range": "8684-8709",
       "markText": "女人不过是糊窗子的纸，破了烂了揭掉了再糊一层新的。",
-      "totalCount": 8032,
+      "totalCount": 8048,
       "appLink": "weread://bestbookmark?bookId=812443&chapterUid=51&rangeStart=8684&rangeEnd=8709",
       "webLink": "https://weread.qq.com/web/reader/47532ac05c659b47554a825?chapterUid=51&rangeStart=8684&rangeEnd=8709"
     },
@@ -676,7 +654,7 @@
       "chapterUid": 55,
       "range": "4718-4777",
       "markText": "那个曾经创造下白鹿原娶妻最高记录的白嘉轩原本没长什么狗毬毒钩，而是一位贵人，一般福薄命浅的女人怎能浮得住这样的深水呢？",
-      "totalCount": 7106,
+      "totalCount": 7123,
       "appLink": "weread://bestbookmark?bookId=812443&chapterUid=55&rangeStart=4718&rangeEnd=4777",
       "webLink": "https://weread.qq.com/web/reader/47532ac05c659b47554a825?chapterUid=55&rangeStart=4718&rangeEnd=4777"
     },
@@ -685,7 +663,7 @@
       "chapterUid": 78,
       "range": "18172-18212",
       "markText": "毕政委后来也到了延安，向毛泽东周恩来检讨了错误之后，改换了姓名，业已无从查找……",
-      "totalCount": 6030,
+      "totalCount": 6048,
       "appLink": "weread://bestbookmark?bookId=812443&chapterUid=78&rangeStart=18172&rangeEnd=18212",
       "webLink": "https://weread.qq.com/web/reader/47532ac05c659b47554a825?chapterUid=78&rangeStart=18172&rangeEnd=18212"
     },
@@ -721,7 +699,7 @@
       "chapterUid": 51,
       "range": "1035-1088",
       "markText": "这个像一团绒球的女人在他怀里缠磨过一年就瘦成了一根干枯的苞谷秆子，最后吐血而死了，死了也没搞清是什么病症。",
-      "totalCount": 5253,
+      "totalCount": 5270,
       "appLink": "weread://bestbookmark?bookId=812443&chapterUid=51&rangeStart=1035&rangeEnd=1088",
       "webLink": "https://weread.qq.com/web/reader/47532ac05c659b47554a825?chapterUid=51&rangeStart=1035&rangeEnd=1088"
     },
@@ -730,7 +708,7 @@
       "chapterUid": 50,
       "range": "340-354",
       "markText": "小说被认为是一个民族的秘史。",
-      "totalCount": 5205,
+      "totalCount": 5220,
       "appLink": "weread://bestbookmark?bookId=812443&chapterUid=50&rangeStart=340&rangeEnd=354",
       "webLink": "https://weread.qq.com/web/reader/47532ac05c659b47554a825?chapterUid=50&rangeStart=340&rangeEnd=354"
     },
@@ -739,7 +717,7 @@
       "chapterUid": 85,
       "range": "12702-12716",
       "markText": "成为我小说写作的最直接命题。",
-      "totalCount": 5202,
+      "totalCount": 5220,
       "appLink": "weread://bestbookmark?bookId=812443&chapterUid=85&rangeStart=12702&rangeEnd=12716",
       "webLink": "https://weread.qq.com/web/reader/47532ac05c659b47554a825?chapterUid=85&rangeStart=12702&rangeEnd=12716"
     },
@@ -757,7 +735,7 @@
       "chapterUid": 56,
       "range": "1004-1039",
       "markText": "白鹿村家家的牛圈里都埋过早夭的孩子，家家的田地里都施过渗着血肉的粪肥。",
-      "totalCount": 4228,
+      "totalCount": 4242,
       "appLink": "weread://bestbookmark?bookId=812443&chapterUid=56&rangeStart=1004&rangeEnd=1039",
       "webLink": "https://weread.qq.com/web/reader/47532ac05c659b47554a825?chapterUid=56&rangeStart=1004&rangeEnd=1039"
     },
@@ -780,15 +758,6 @@
       "webLink": "https://weread.qq.com/web/reader/47532ac05c659b47554a825?chapterUid=70&rangeStart=13268&rangeEnd=13332"
     },
     {
-      "bookmarkId": "812443_67_14524-14565",
-      "chapterUid": 67,
-      "range": "14524-14565",
-      "markText": "小娥在窑门口跟踪骂着：“鹿乡约你记着我也记着，我尿到你脸上咧，我给乡约尿下一脸！”",
-      "totalCount": 4014,
-      "appLink": "weread://bestbookmark?bookId=812443&chapterUid=67&rangeStart=14524&rangeEnd=14565",
-      "webLink": "https://weread.qq.com/web/reader/47532ac05c659b47554a825?chapterUid=67&rangeStart=14524&rangeEnd=14565"
-    },
-    {
       "bookmarkId": "812443_80_17938-17955",
       "chapterUid": 80,
       "range": "17938-17955",
@@ -796,6 +765,15 @@
       "totalCount": 4004,
       "appLink": "weread://bestbookmark?bookId=812443&chapterUid=80&rangeStart=17938&rangeEnd=17955",
       "webLink": "https://weread.qq.com/web/reader/47532ac05c659b47554a825?chapterUid=80&rangeStart=17938&rangeEnd=17955"
+    },
+    {
+      "bookmarkId": "812443_67_14524-14565",
+      "chapterUid": 67,
+      "range": "14524-14565",
+      "markText": "小娥在窑门口跟踪骂着：“鹿乡约你记着我也记着，我尿到你脸上咧，我给乡约尿下一脸！”",
+      "totalCount": 3996,
+      "appLink": "weread://bestbookmark?bookId=812443&chapterUid=67&rangeStart=14524&rangeEnd=14565",
+      "webLink": "https://weread.qq.com/web/reader/47532ac05c659b47554a825?chapterUid=67&rangeStart=14524&rangeEnd=14565"
     },
     {
       "bookmarkId": "812443_60_13632-13658",
@@ -809,9 +787,9 @@
   ],
   "readProgress": {
     "chapterUid": 52,
-    "chapterOffset": 6507,
+    "chapterOffset": 6417,
     "progress": 0,
-    "updateTime": 1779270656,
+    "updateTime": 1779360795,
     "recordReadingTime": 0,
     "finishTime": ""
   }

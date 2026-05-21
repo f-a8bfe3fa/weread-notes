@@ -1,7 +1,10 @@
-name: Manual Full Sync - WeRead Backup
+name: Weekly Full Sync - WeRead Backup
 
 on:
-  workflow_dispatch:  # 仅手动触发
+  schedule:
+    # 每周一北京时间 02:00 运行 (UTC 周一 18:00)
+    - cron: '0 18 * * 1'
+  workflow_dispatch:  # 允许手动触发
 
 concurrency:
   group: weread-sync
@@ -58,5 +61,5 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add -A
-        git commit -m "Manual full sync: $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes to commit"
+        git commit -m "Weekly full sync: $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes to commit"
         git push
