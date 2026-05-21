@@ -24,14 +24,14 @@
     },
     "appLink": "weread://reading?bId=812443",
     "webLink": "https://weread.qq.com/web/reader/47532ac05c659b47554a825",
-    "lastSync": "2026-05-21T10:48:58Z",
+    "lastSync": "2026-05-21T10:54:56Z",
     "readingProgress": "0%",
     "readingTime": "0分钟",
     "finishedDate": "",
     "noteCount": 1,
-    "reviewCount": 0,
+    "reviewCount": 1,
     "bookmarkCount": 0,
-    "contentHash": "1554c478c4d830556818bf61ed9916fa8929ea43c180cd5641446ad6dd2c3ec5"
+    "contentHash": "ea51ddfde10e0b4331219f8631c2d66fcc3de0e886f9e3350e46c6a29f539f8a"
   },
   "chapters": [
     {
@@ -587,19 +587,17 @@
       "chapterTitle": "第二章",
       "items": [
         {
-          "type": "highlight",
-          "bookmarkId": "812443_52_6613-6660",
+          "type": "review",
+          "reviewId": "933739075_89gDYYtoV",
           "range": "6613-6660",
-          "rangeStart": 6613,
-          "rangeEnd": 6660,
-          "markText": "凡人们绝对信服圣人的圣言而又不真心实意实行，这并不是圣人的悲剧，而是凡人永远成不了圣人的缘故。",
-          "colorStyle": 3,
-          "colorLabel": "",
-          "createTime": 1779076291,
-          "createTimeFormatted": "2026-05-18 11:51:31",
-          "chapterUid": 52,
-          "appLink": "weread://bestbookmark?bookId=812443&chapterUid=52&rangeStart=6613&rangeEnd=6660",
-          "webLink": "https://weread.qq.com/web/reader/47532ac05c659b47554a825?chapterUid=52&rangeStart=6613&rangeEnd=6660"
+          "chapterName": "第二章",
+          "content": "测试一下新",
+          "abstract": "凡人们绝对信服圣人的圣言而又不真心实意实行，这并不是圣人的悲剧，而是凡人永远成不了圣人的缘故。",
+          "star": -1,
+          "createTime": 1779360810,
+          "createTimeFormatted": "2026-05-21 18:53:30",
+          "isFinish": false,
+          "chapterUid": 52
         }
       ]
     }
@@ -788,10 +786,10 @@
     }
   ],
   "readProgress": {
-    "chapterUid": 84,
-    "chapterOffset": 15245,
+    "chapterUid": 52,
+    "chapterOffset": 6417,
     "progress": 0,
-    "updateTime": 1779360417,
+    "updateTime": 1779360795,
     "recordReadingTime": 0,
     "finishTime": ""
   }
