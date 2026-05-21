@@ -12,25 +12,26 @@
     "isbn": "9787544766500",
     "wordCount": 0,
     "newRating": 920,
-    "newRatingCount": 113244,
+    "newRatingCount": 113256,
     "newRatingDetail": {
-      "good": 105699,
+      "good": 105711,
       "fair": 6822,
       "poor": 723,
-      "recent": 635,
-      "deepV": 6540,
+      "recent": 640,
+      "deepV": 6542,
       "myRating": "",
       "title": "神作"
     },
     "appLink": "weread://reading?bId=853116",
     "webLink": "https://weread.qq.com/web/reader/57e324b05d047c57ebe463e",
-    "lastSync": "2026-05-21T01:31:42Z",
+    "lastSync": "2026-05-21T10:36:11Z",
     "readingProgress": "0%",
     "readingTime": "0分钟",
     "finishedDate": "",
     "noteCount": 1,
     "reviewCount": 0,
-    "bookmarkCount": 0
+    "bookmarkCount": 0,
+    "contentHash": "1554c478c4d830556818bf61ed9916fa8929ea43c180cd5641446ad6dd2c3ec5"
   },
   "chapters": [
     {
@@ -532,7 +533,7 @@
       "chapterUid": 48,
       "range": "15089-15156",
       "markText": "勇敢就是，在你还没开始的时候就知道自己注定会输，但依然义无反顾地去做，并且不管发生什么都坚持到底。一个人很少能赢，但也总会有赢的时候。",
-      "totalCount": 51728,
+      "totalCount": 51744,
       "appLink": "weread://bestbookmark?bookId=853116&chapterUid=48&rangeStart=15089&rangeEnd=15156",
       "webLink": "https://weread.qq.com/web/reader/57e324b05d047c57ebe463e?chapterUid=48&rangeStart=15089&rangeEnd=15156"
     },
@@ -541,7 +542,7 @@
       "chapterUid": 69,
       "range": "5282-5328",
       "markText": "他关上灯，回到了杰姆的房间里。他要在那里守护一整夜，等杰姆明天早晨醒来的时候，他还守在床边。",
-      "totalCount": 35688,
+      "totalCount": 35760,
       "appLink": "weread://bestbookmark?bookId=853116&chapterUid=69&rangeStart=5282&rangeEnd=5328",
       "webLink": "https://weread.qq.com/web/reader/57e324b05d047c57ebe463e?chapterUid=69&rangeStart=5282&rangeEnd=5328"
     },
@@ -613,7 +614,7 @@
       "chapterUid": 46,
       "range": "15948-16042",
       "markText": "“杰克！看在老天的分上，当一个孩子问你问题的时候，你要正儿八经地回答，不要东拉西扯，顾左右而言他。虽说孩子毕竟只是孩子，但他们会比成人更敏锐地察觉到你在回避问题，回避只会让他们糊里糊涂。”",
-      "totalCount": 14314,
+      "totalCount": 14331,
       "appLink": "weread://bestbookmark?bookId=853116&chapterUid=46&rangeStart=15948&rangeEnd=16042",
       "webLink": "https://weread.qq.com/web/reader/57e324b05d047c57ebe463e?chapterUid=46&rangeStart=15948&rangeEnd=16042"
     },
@@ -658,7 +659,7 @@
       "chapterUid": 40,
       "range": "3056-3094",
       "markText": "早晚有一天，我会趁她不留神溜出去，跳进巴克湾把自己淹死，然后就让她后悔去吧。",
-      "totalCount": 12012,
+      "totalCount": 12024,
       "appLink": "weread://bestbookmark?bookId=853116&chapterUid=40&rangeStart=3056&rangeEnd=3094",
       "webLink": "https://weread.qq.com/web/reader/57e324b05d047c57ebe463e?chapterUid=40&rangeStart=3056&rangeEnd=3094"
     },
@@ -694,7 +695,7 @@
       "chapterUid": 69,
       "range": "3268-3308",
       "markText": "你永远也不可能真正了解一个人，除非你穿上他的鞋子走来走去，站在他的角度考虑问题。",
-      "totalCount": 11401,
+      "totalCount": 11414,
       "appLink": "weread://bestbookmark?bookId=853116&chapterUid=69&rangeStart=3268&rangeEnd=3308",
       "webLink": "https://weread.qq.com/web/reader/57e324b05d047c57ebe463e?chapterUid=69&rangeStart=3268&rangeEnd=3308"
     },
