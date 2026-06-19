@@ -7,7 +7,7 @@
 推送策略：
 - 通过 bookId 查询 Notion 数据库
 - 不存在 → 创建新页面（全量写入）
-- 存在 → 删除旧 blocks + 全量更新（不做时间判断）
+- 存在 → 删除旧页面并重新创建（全量写入，不做时间判断）
 
 用法：
   python scripts/notion_push.py
@@ -276,12 +276,42 @@ def _get_icon(cover_url: str) -> dict | None:
     return None
 
 
+def _create_page_with_children(
+    client: NotionClient,
+    properties: dict,
+    children: list,
+    icon: dict | None,
+) -> dict:
+    """创建页面并分批写入 children
+
+    Args:
+        client: Notion 客户端
+        properties: 页面属性
+        children: 页面内容 blocks
+        icon: 页面图标
+
+    Returns:
+        创建的页面数据
+    """
+    first_batch = children[:100] if len(children) > 100 else children
+    new_page = client.create_page(properties, children=first_batch, icon=icon)
+
+    # 追加剩余 blocks
+    if len(children) > 100 and new_page:
+        page_id = new_page["id"]
+        for i in range(100, len(children), 100):
+            batch = children[i:i + 100]
+            client.append_blocks(page_id, batch)
+
+    return new_page
+
+
 def push_single_book(client: NotionClient, book_data: dict, json_path: Path) -> bool:
     """推送单本书到 Notion（直接覆盖）
 
     通过 bookId 查询 Notion 数据库：
     - 不存在 → 创建新页面（全量写入）
-    - 存在 → 删除旧 blocks + 全量更新
+    - 存在 → 删除旧页面并重新创建（全量写入）
 
     Args:
         client: Notion 客户端
@@ -318,49 +348,15 @@ def push_single_book(client: NotionClient, book_data: dict, json_path: Path) -> 
 
         if page is None:
             # 不存在 → 创建新页面（带图标）
-            first_batch = children[:100] if len(children) > 100 else children
-            new_page = client.create_page(properties, children=first_batch, icon=icon)
-
-            # 追加剩余 blocks
-            if len(children) > 100 and new_page:
-                page_id = new_page["id"]
-                for i in range(100, len(children), 100):
-                    batch = children[i:i + 100]
-                    client.append_blocks(page_id, batch)
-
+            _create_page_with_children(client, properties, children, icon)
             logger.info("Notion 新建: %s", title)
         else:
-            # 存在 → 更新属性 + 全量替换内容 + 更新图标
+            # 存在 → 删除旧页面并重新创建（减少 API 调用，避免旧内容残留）
             page_id = page["id"]
-            client.update_page_properties(page_id, properties)
+            client._request("DELETE", f"/blocks/{page_id}")
 
-            # 更新页面图标（如果封面有效）
-            if icon:
-                try:
-                    client._request("PATCH", f"/pages/{page_id}", json={"icon": icon})
-                except Exception as e:
-                    logger.warning("更新页面图标失败: %s - %s", title, e)
-
-            if children:
-                # 删除旧 blocks
-                try:
-                    existing_blocks = client.get_page_blocks(page_id)
-                    for block in existing_blocks:
-                        block_id = block.get("id")
-                        if block_id:
-                            try:
-                                client._request("DELETE", f"/blocks/{block_id}")
-                            except Exception:
-                                pass
-                except Exception:
-                    pass
-
-                # 添加新 blocks（分批）
-                for i in range(0, len(children), 100):
-                    batch = children[i:i + 100]
-                    client.append_blocks(page_id, batch)
-
-            logger.info("Notion 更新: %s", title)
+            _create_page_with_children(client, properties, children, icon)
+            logger.info("Notion 更新（已删除并重建）: %s", title)
 
         return True
 
