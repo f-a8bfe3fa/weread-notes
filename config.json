@@ -1,7 +1,7 @@
 {
   "weread": {
     "base_url": "https://i.weread.qq.com/api/agent/gateway",
-    "skill_version": "1.0.3"
+    "skill_version": "1.0.4"
   },
   "notion": {
     "base_url": "https://api.notion.com/v1",
