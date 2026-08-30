@@ -201,7 +201,7 @@
 |密钥名称（Name）|对应填入的内容（Value）|
 |---|---|
 |**`WEREAD_API_KEY`**|你在第二步中复制的 **微信读书 Key**|
-|**`NOTION_API_KEY`**|你在第三步中获得的 Notion **Internal Integration Token**（`secret_` 开头）|
+|**`NOTION_API_KEY`**|你在第三步中获得的 Notion **Internal Integration Token**|
 |**`NOTION_DATABASE_ID`**|你在第三步中提取的 Notion **Database ID**|
 
 
