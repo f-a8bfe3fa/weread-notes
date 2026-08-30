@@ -26,18 +26,6 @@
 
 
 
-[https://www.bilibili.com/video/BV19B4X63EcD/?share_source=copy_web&vd_source=7c6ec3f3af94f35847bcff21c07d5800](微信读书笔记自动同步工具)
-
-项目地址：https://github\.com/f\-a8bfe3fa/weread\-notes
-
-大家可能由于网络原因，没办法正常的使用GitHub。可以下载下面这个加速器，就可以正常访问GitHub。
-
-加速器：[FastGithub](https://cloud.tsinghua.edu.cn/d/df482a15afb64dfeaff8/)
-
-Notion APP：https://pan\.quark\.cn/s/08c55de48928
-
-
-
 ---
 
 
@@ -70,7 +58,7 @@ Notion APP：https://pan\.quark\.cn/s/08c55de48928
 
 为了保护你的阅读隐私，我们需要把代码放到你自己的“私人保险箱”（私有仓库）里。
 
-项目地址：https://github\.com/f\-a8bfe3fa/weread\-notes
+[项目地址](https://github.com/f-a8bfe3fa/weread-notes)
 
 1. **下载项目代码：**
 
@@ -136,7 +124,7 @@ Notion APP：https://pan\.quark\.cn/s/08c55de48928
 
 让笔记漂亮地同步到你的 Notion 数据库中！
 
-notion模板：https://bubble\-sodium\-5ed\.notion\.site/362e809a4d8b80f89245e3582fded80a?v=364e809a4d8b8034be53000cd463a87d\&source=copy\_link
+[notion模板](https://bubble-sodium-5ed.notion.site/362e809a4d8b80f89245e3582fded80a?v=364e809a4d8b8034be53000cd463a87d&source=copy_link)
 
 #### 1\. 复制 Notion 模板
 
@@ -331,7 +319,19 @@ notion模板：https://bubble\-sodium\-5ed\.notion\.site/362e809a4d8b80f89245e35
 
 
 ---
+## 相关链接
 
+[视频教程](https://www.bilibili.com/video/BV19B4X63EcD/?share_source=copy_web&vd_source=7c6ec3f3af94f35847bcff21c07d5800)
+
+[项目地址](https://github.com/f-a8bfe3fa/weread-notes)
+
+大家可能由于网络原因，没办法正常的使用GitHub。可以下载下面这个加速器，就可以正常访问GitHub。
+
+加速器：[FastGithub](https://cloud.tsinghua.edu.cn/d/df482a15afb64dfeaff8/)
+
+[Notion APP](https://pan.quark.cn/s/08c55de48928)
+
+---
 
 
 ## 效果展示
