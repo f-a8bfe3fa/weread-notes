@@ -48,7 +48,7 @@
 
 
 
-## 🎬 详细配置步骤（可以跟随视频一步步来）
+## [🎬 详细配置步骤（可以跟随视频一步步来）](https://www.bilibili.com/video/BV19B4X63EcD/?share_source=copy_web&vd_source=7c6ec3f3af94f35847bcff21c07d5800)
 
 
 
