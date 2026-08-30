@@ -13,7 +13,7 @@ concurrency:
 jobs:
   full-sync:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 180
     permissions:
       contents: write
 
