@@ -1,190 +1,356 @@
-# 微信读书笔记同步工具
+# 📖 微信读书笔记自动同步工具 \(小白专属配置指南\)
 
-自动同步微信读书笔记到 GitHub 和 Notion，支持增量同步和全量同步。
+## 🌟 **写在前面：**
 
-## 功能特性
+这是一个专门为**完全不懂计算机的小白**准备的超详细安装指南！
 
-- **增量同步**：只同步有变化的书籍，高效快速
-- **全量同步**：智能内容比对，避免无意义的数据重建
-- **双平台推送**：同步到 GitHub 仓库和 Notion 数据库
-- **自动定时**：每周自动全量同步 + 每日增量同步
-- **本地备份**：JSON + Markdown 双格式保存
-- **内容哈希**：通过 SHA256 检测想法/书评的文字修改
+原版文档有很多专业的命令行操作（比如 Git、Pip 等），在这里我们**通通不需要**！你只需要跟着下面的视频步骤，用鼠标点击、复制、粘贴，就能轻松搭建属于你自己的**微信读书 \-\> Notion \+ GitHub 个人私有笔记库**！
 
-## 项目结构
 
-```
-.
-├── .github/workflows/      # GitHub Actions 工作流
-│   ├── daily-sync.yml      # 每日增量同步（北京时间 8:00）
-│   └── manual-full-sync.yml # 每周全量同步（北京时间 2:00）
-├── scripts/                # 核心脚本
-│   ├── api.py             # 微信读书 API 封装
-│   ├── config.py          # 配置管理
-│   ├── md_to_notion.py    # Markdown 转 Notion blocks
-│   ├── notion_client.py   # Notion API 封装
-│   ├── notion_push.py     # Notion 推送逻辑
-│   ├── renderer.py        # Markdown 渲染
-│   ├── sync.py            # 同步主逻辑
-│   └── utils.py           # 工具函数
-├── data/                   # 书籍数据（自动创建）
-├── index.json             # 书籍索引（自动创建）
-├── .env                   # 环境变量（需手动创建）
-└── requirements.txt       # Python 依赖
-```
 
-## 快速开始
+## 这个工具能做什么？
 
-### 1. 配置环境变量
 
-创建 `.env` 文件：
 
-```bash
-WEREAD_API_KEY=your_weread_api_key
-NOTION_API_KEY=your_notion_integration_token
-NOTION_DATABASE_ID=your_notion_database_id
-```
+简单来说，它能帮你：
 
-### 2. 配置 Notion 数据库
 
-在 Notion 中创建一个数据库，添加以下属性：
 
-| 属性名 | 类型 | 说明 |
-|--------|------|------|
-| 书名 | Title | 书籍标题 |
-| bookId | Rich Text | 微信读书书籍 ID |
-| 作者 | Rich Text | 作者名（可选） |
-| 译者 | Rich Text | 译者名（可选） |
-| 出版社 | Rich Text | 出版社（可选） |
-| 分类 | Select | 书籍分类（可选） |
-| 阅读进度 | Select | 已读完/在读/未读 |
-| 笔记数 | Number | 笔记总数 |
-| 封面 | Files | 书籍封面图（可选） |
-| App链接 | URL | 微信读书 App 链接（可选） |
+- **自动拉取**你在微信读书里做的划线、想法、书评
 
-### 3. 本地运行
+- **保存到 GitHub** 仓库，永久备份，不怕丢失
 
-```bash
-# 安装依赖
-pip install -r requirements.txt
+- **同步到 Notion**，方便整理、搜索、分享
 
-# 增量同步（推荐日常使用）
-python scripts/sync.py --mode incremental
+- **每天自动运行**，自动同步笔记，不用你操心
 
-# 全量同步（智能跳过，内容未变则不重建）
-python scripts/sync.py --mode full
 
-# 全量同步（强制重建所有书籍，禁用智能跳过）
-python scripts/sync.py --mode full --no-skip
 
-# 断点续传（跳过已同步的书籍）
-python scripts/sync.py --mode full --resume
-```
+[https://www.bilibili.com/video/BV19B4X63EcD/?share_source=copy_web&vd_source=7c6ec3f3af94f35847bcff21c07d5800](微信读书笔记自动同步工具)
 
-### 4. GitHub Actions 自动同步
+项目地址：https://github\.com/f\-a8bfe3fa/weread\-notes
 
-1. 将项目推送到 GitHub 仓库
-2. 在仓库 Settings → Secrets → Actions 中添加以下 secrets：
-   - `WEREAD_API_KEY`
-   - `NOTION_API_KEY`
-   - `NOTION_DATABASE_ID`
-3. 每周一北京时间 2:00 自动运行全量同步
-4. 每日北京时间 8:00 自动运行增量同步
-5. 可在 Actions 页面手动触发同步任务
+大家可能由于网络原因，没办法正常的使用GitHub。可以下载下面这个加速器，就可以正常访问GitHub。
 
-## 同步逻辑
+加速器：[FastGithub](https://cloud.tsinghua.edu.cn/d/df482a15afb64dfeaff8/)
 
-### 增量同步
+Notion APP：https://pan\.quark\.cn/s/08c55de48928
 
-```
-1. 拉取微信读书 /user/notebooks
-2. 比对本地 index.json（sort + 笔记数量）
-3. 筛选出变更书籍
-4. 对每本变更书籍：
-   - 拉取完整 API 数据
-   - 写入 JSON（原子写入）
-   - 渲染 Markdown
-   - 推送 Notion（全量覆盖）
-   - 更新 index.json
-```
 
-### 全量同步
-
-智能全量同步，通过内容哈希比对避免无意义重建：
-
-- 拉取所有书籍数据
-- 计算每本书籍的内容哈希（基于想法/书评）
-- 比对本地数据：
-  - **内容未变**：仅更新索引中的 sort，跳过文件和 Notion 推送
-  - **内容已变**：重新写入 JSON、渲染 Markdown、推送 Notion
-
-使用 `--no-skip` 参数可强制重建所有书籍。
-
-### 内容哈希机制
-
-内容哈希（SHA256）仅基于以下数据计算：
-
-- 章节内的想法/点评（review）
-- 整本书的书评（bookReviews）
-
-排除的数据：划线、章节信息、阅读进度等。
-
-用于检测微信读书端的"修改想法/书评"操作（增量同步无法检测此类变更）。
-
-## 数据格式
-
-### JSON 格式
-
-```json
-{
-  "meta": {
-    "bookId": "123456",
-    "title": "书名",
-    "author": "作者",
-    "category": "分类",
-    "noteCount": 10,
-    "reviewCount": 5,
-    "bookmarkCount": 3,
-    "contentHash": "sha256哈希值",
-    "lastSync": "2024-01-01T12:00:00Z"
-  },
-  "content": [
-    {
-      "chapterTitle": "第一章",
-      "items": [
-        {"type": "highlight", "markText": "划线内容", ...},
-        {"type": "review", "content": "想法内容", ...}
-      ]
-    }
-  ]
-}
-```
-
-### Markdown 格式
-
-```markdown
-# 书名
-
-**作者：** 作者名  
-**分类：** 分类名  
-**阅读进度：** 已读完
 
 ---
 
-## 第一章
 
-📌 划线内容 ⏱ 2024-01-01 12:00:00
 
-💭 想法内容 ⏱ 2024-01-01 12:30:00
-```
+## 🧭 准备工作
 
-## 注意事项
 
-1. **API 密钥安全**：`.env` 文件不要提交到 GitHub，使用 GitHub Secrets
-2. **Notion 速率限制**：每秒最多 3 次请求，已内置限速
-3. **删除的书籍**：本地会保留备份，不会自动删除
-4. **修改的笔记**：增量同步检测不到想法/书评的文字修改，由每周全量同步自动检测
 
-## 许可证
+在正式开始配置之前，请先注册并登录以下三个账号：
 
-MIT License
+1. **GitHub 账号**（用于存放备份文件和自动运行同步程序）
+
+2. **微信读书账号**（用于获取你的读书笔记）
+
+3. **Notion 账号**（用于精美展示和整理你的笔记）
+
+    
+
+---
+
+
+
+## 🎬 详细配置步骤（可以跟随视频一步步来）
+
+
+
+### 第一步：创建你自己的 GitHub 私人仓库
+
+
+
+为了保护你的阅读隐私，我们需要把代码放到你自己的“私人保险箱”（私有仓库）里。
+
+项目地址：https://github\.com/f\-a8bfe3fa/weread\-notes
+
+1. **下载项目代码：**
+
+    - 访问本项目主页，点击右侧绿色的 **「Code」** 按钮，然后选择 **「Download ZIP」**，将项目下载到本地电脑。
+
+2. **本地解压与清理：**
+
+    - 将下载好的压缩包解压。
+
+    - **重要的一步：** 进入解压后的文件夹，把 `data` 文件夹里的文件（存放书籍数据的文件夹）和 `index.json` 测试文件删掉。因为这些是作者的测试笔记，我们不需要它们，我们要用自己的。
+
+3. **在 GitHub 上新建私人仓库：**
+
+    - 登录你的 GitHub，点击页面右上角的 **「\+」**，选择 **「New repository」**（新建仓库）。
+
+    - **仓库名称（Repository name）：** 可以起一个好记的名字（例如：`weread-notes`）。
+
+    - **可见性（Visibility）：** **一定要选择 「Private」（私有）**！这样别人就看不到你的读书笔记了，安全第一。
+
+    - 点击最下方的绿色 **「Create repository」** 按钮创建成功。
+
+4. **拖拽上传代码文件：**
+
+    - 页面跳转后，点击中间的 **「uploading an existing file」**（上传已有文件）链接。
+
+    - 打开刚才本地解压并清理好的文件夹，**全选里面所有的文件**，直接用鼠标**拖拽**到网页中。
+
+    - 等待所有文件上传完毕后，拉到页面最下方，点击绿色的 **「Commit changes」**（保存更改）按钮。
+
+        
+
+---
+
+
+
+### 第二步：获取你的微信读书密钥 \(Key\)
+
+
+
+我们需要一把“钥匙”来读取你的微信读书笔记。
+
+
+
+1. 登录 [微信读书网页版](https://weread.qq.com/)。
+
+2. 点击你的头像。
+
+3. 再点击 **「微信读书 skill」**
+
+4. 翻到最下面，找到并**复制这一串 Key**。
+
+5. 临时新建一个文本文件（记事本），把这个 Key 粘贴保存好，等会儿要用。
+
+    
+
+---
+
+
+
+### 第三步：配置 Notion 模板与集成
+
+
+
+让笔记漂亮地同步到你的 Notion 数据库中！
+
+notion模板：https://bubble\-sodium\-5ed\.notion\.site/362e809a4d8b80f89245e3582fded80a?v=364e809a4d8b8034be53000cd463a87d\&source=copy\_link
+
+#### 1\. 复制 Notion 模板
+
+- 在原项目网页右侧，找到 **Notion 模板链接** 并点击打开。
+
+- 页面加载完后，点击右上角的 **「Duplicate」**（克隆/复制）按钮，将这个模板复制到你自己的 Notion 工作区中。
+
+    
+
+#### 2\. 清理模板中的测试数据
+
+- 进入你刚刚克隆好的 Notion 页面，你会看到几条作者留下的测试笔记，**直接全选并删除**它们。我们需要一个干净的空白数据库来存放你自己的笔记。
+
+    
+
+#### 3\. 创建 Notion 机器人（集成/Integration）
+
+- 访问 Notion 的开发者门户：[Notion My Integrations](https://www.notion.so/my-integrations)。
+
+- 点击 **「\+ New integration」**（新建集成）。
+
+- 给它起个名字（例如：`微信读书同步`），然后点击 **「Submit」** 提交。
+
+- 提交后，你会看到一串 **「Internal Integration Token」**（内部集成令牌，以 `secret_` 开头）。点击 **「Copy」** 复制它，并记录在你的记事本中，这叫做 **Notion API Key**。
+
+    
+
+#### 4\. 把机器人关联到你的 Notion 页面
+
+- 回到你刚刚克隆的 Notion 数据库页面。
+
+- 点击右上角的 **「\.\.\.」**（省略号按钮）。
+
+- 往下翻，找到 **「Connections」**（连接）或 **「Add connections」**（新增连接）。
+
+- 搜索你刚刚创建的机器人名字（如：`微信读书同步`），点击添加并同意关联。这一步至关重要，否则机器人无法把笔记写进你的页面！
+
+    
+
+#### 5\. 获取 Notion 数据库 ID
+
+- 看看你当前 Notion 数据库页面的浏览器地址栏（URL）。
+
+- 它的格式通常是 `https://www.notion.so/你的用户名/一串字母数字?v=一串字母数字`。
+
+- **斜杠 ****`/`**** 后面、问号 ****`?`**** 之前的这一长串 32 位的字母数字**，就是你的 **Notion Database ID**。把它复制并记录到记事本里。
+
+    
+
+---
+
+
+
+### 第四步：配置 GitHub Secrets（填入安全钥匙）
+
+
+
+现在我们要把记事本里的“三把安全钥匙”安全地存放到 GitHub 中，让自动运行的程序能够使用它们。
+
+
+
+1. 回到你在 GitHub 上刚刚创建的私有仓库页面（可以看到有一个锁的标志，代表私有）。
+
+2. 点击仓库上方的 **「Settings」**（设置）选项卡。
+
+3. 在左侧菜单栏中往下翻，找到 **「Secrets and variables」**，点击展开后选择 **「Actions」**。
+
+4. 点击右上角绿色的 **「New repository secret」**（新建仓库密钥）按钮。
+
+5. 我们需要依次添加以下 **3 个密钥**（每次添加一个，名字填在 `Name` 里，内容填在 `Value` 里，然后点击 Add secret 保存）：
+
+    
+
+|密钥名称（Name）|对应填入的内容（Value）|
+|---|---|
+|**`WEREAD_API_KEY`**|你在第二步中复制的 **微信读书 Key**|
+|**`NOTION_API_KEY`**|你在第三步中获得的 Notion **Internal Integration Token**（`secret_` 开头）|
+|**`NOTION_DATABASE_ID`**|你在第三步中提取的 Notion **Database ID**|
+
+
+
+---
+
+
+
+### 第五步：配置自动运行工作流 \(GitHub Actions\)
+
+
+
+由于我们是手动拖拽上传的文件，可能漏掉了 GitHub 用来自动定时运行的“工作流”配置文件。我们需要手动在 GitHub 上把它们创建出来。
+
+
+
+原项目中有两个自动运行的任务文件，我们都需要复制：
+
+- `daily-sync.yml`（每天自动增量同步）
+
+- `manual-full-sync.yml`（每周自动全量同步）
+
+    
+
+1. **配置每日同步工作流：**
+
+    - 回到原项目的网页，点击进入 `.github/workflows` 文件夹，点击 `daily-sync.yml`。
+
+    - 点击右上角的 **「Copy raw content」**（复制原始文件内容）图标。
+
+    - 回到你自己的 GitHub 仓库，点击 **「Add file」** \-\> **「Create new file」**（创建新文件）。
+
+    - 文件名输入：`.github/workflows/daily-sync.yml`（GitHub 会自动为你创建文件夹路径）。
+
+    - 将刚刚复制的内容粘贴到下方的代码框中。
+
+    - 点击右上角绿色的 **「Commit changes\.\.\.」** 按钮保存。
+
+        
+
+2. **配置每周同步工作流：**
+
+    - 同样地，回到原项目网页，点击进入 `.github/workflows`，点击 `manual-full-sync.yml`。
+
+    - 点击复制内容。
+
+    - 回到你自己的仓库，点击 **「Add file」** \-\> **「Create new file」**。
+
+    - 文件名输入：`.github/workflows/manual-full-sync.yml`（**注意：后缀名 ****`.yml`**** 一定要手动打全哦！**）。
+
+    - 粘贴内容并保存（Commit changes）。
+
+        
+
+---
+
+
+
+### 第六步：手动运行一次，开启自动同步之旅！
+
+
+
+全部配置完成后，我们需要手动触发一次，让程序进行首次同步，并激活以后的定时自动同步。
+
+
+
+1. 在你的 GitHub 仓库上方，点击 **「Actions」**（操作）选项卡。
+
+2. 在左侧菜单中，你会看到我们刚刚创建的两个工作流。
+
+3. **首先点击「每周运行的工作流」**（或全量同步工作流）：
+
+    - 在右侧点击 **「Run workflow」**（运行工作流）按钮，再点击绿色的 **Run workflow** 确认。
+
+    - 页面刷新后，你会看到一个正在运行的任务。如果你的读书笔记比较少，大约 1 分钟就会运行成功（显示绿色对勾）。
+
+    - 此时，去你的 **Notion 页面** 刷新看看，你的微信读书笔记是不是已经神奇地全部排好版、出现在页面里了？
+
+4. **然后点击「每日运行的工作流」**：
+
+    - 同样地，手动点击 **「Run workflow」** 运行一次，完成初始化。
+
+        
+
+🎉 **大功告成！** 
+
+现在，小工具已经彻底配置完毕。以后，它会在每周一凌晨和每天早上**自动帮你把微信读书的新笔记、新划线和想法同步到 Notion 和 GitHub**，你再也不需要手动做任何操作了！
+
+
+
+---
+
+
+
+## 💡 进阶小贴士（适合笔记超级多的朋友）
+
+
+
+如果你的一个非常热爱读书的人，那你微信**读书笔记一定非常多（成千上万条）**，第一次全量同步可能会因为耗时太长而中途断开。
+
+
+
+你可以做如下优化：
+
+1. 在你自己的 GitHub 仓库中，找到并点击打开 `.github/workflows/manual-full-sync.yml` 文件。
+
+2. 点击右上角的画笔图标（编辑文件）。
+
+3. 视频中，作者将时间限制设置为了 `60` 分钟。如果你的笔记量极大，建议将这个数值修改为 **`120`**（即 120 分钟/2个小时），这样同步过程就不会因为超时而意外中断，确保所有笔记能一次性顺利拉取下来！
+
+4. 修改后点击 **「Commit changes\.\.\.」** 保存即可。
+
+    
+
+
+
+---
+
+
+
+## 效果展示
+
+
+
+![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NzU0ODEzYzczMDUwYWYwZGE2ZDgxZGMyODA5NjZiNGNfYWZmMGRmNDFiYTNjNWQyOTgwYzliZTI4NDExYjc0MTlfSUQ6NzY0MTQzMjE2MjcyOTk4NzI5Ml8xNzg4MDc5MDQ2OjE3ODgxNjU0NDZfVjM)
+
+Notion很自由，我们可以个性化的修改我们的页面，让它变得美观
+
+![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NDY5ZTYxZDVhNjMwNDlhOWFjMzk2MmRhYzhkYTAxY2ZfOTk3YjgyMWZiNDg3ZmVjZWM4OTA4MmQ3NWY1NzU5YmZfSUQ6NzY0MTQzMjE2MDQwNzM0MjI3MF8xNzg4MDc5MDQ2OjE3ODgxNjU0NDZfVjM)
+
+
+
+![Image](https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=YWUxYjRiYzgyN2Q0N2JjMjVlYjIwNjM1ZTM0M2M4NGRfY2U5ZjVhODY1NDIwZjg5MTFjNzIxZmI3M2U0MmQ2M2RfSUQ6NzY0MTQzMjE2MDIxNDE1ODI2N18xNzg4MDc5MDQ2OjE3ODgxNjU0NDZfVjM)
+
+---
+
+
+
+祝你使用愉快！如果有问题，可以在项目的 GitHub Issues 中提问。
+
