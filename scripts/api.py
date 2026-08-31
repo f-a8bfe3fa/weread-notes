@@ -54,6 +54,13 @@ class WeReadClient:
             {
                 "Authorization": f"Bearer {api_key}",
                 "Content-Type": "application/json",
+                "User-Agent": (
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                    "AppleWebKit/537.36 (KHTML, like Gecko) "
+                    "Chrome/128.0.0.0 Safari/537.36"
+                ),
+                "Accept": "application/json, text/plain, */*",
+                "Accept-Language": "zh-CN,zh;q=0.9",
             }
         )
 
@@ -103,6 +110,19 @@ class WeReadClient:
                 logger.warning(
                     "[%s] 请求失败 (第%d/%d次): %s",
                     api_name, attempt, self.retry_times, e,
+                )
+                if attempt < self.retry_times:
+                    time.sleep(2 ** attempt)
+            except requests.HTTPError as e:
+                last_exc = e
+                resp_text = ""
+                try:
+                    resp_text = e.response.text[:500]
+                except Exception:
+                    pass
+                logger.warning(
+                    "[%s] HTTP 错误 (第%d/%d次): %s | 响应体: %s",
+                    api_name, attempt, self.retry_times, e, resp_text,
                 )
                 if attempt < self.retry_times:
                     time.sleep(2 ** attempt)
