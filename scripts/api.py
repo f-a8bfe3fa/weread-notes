@@ -7,6 +7,7 @@
 """
 
 import logging
+import random
 import time
 
 import requests
@@ -102,8 +103,8 @@ class WeReadClient:
                     errmsg = data.get("errmsg", "未知错误")
                     raise WeReadAPIError(api_name, errcode, errmsg)
 
-                if self.request_delay:
-                    time.sleep(self.request_delay)
+                delay = self.request_delay + random.uniform(0, 0.5)
+                time.sleep(delay)
                 return data
 
             except UpgradeRequiredError:
@@ -115,7 +116,7 @@ class WeReadClient:
                     api_name, attempt, self.retry_times, e,
                 )
                 if attempt < self.retry_times:
-                    time.sleep(2 ** attempt + self.request_delay)
+                    time.sleep(2 ** attempt + self.request_delay + random.uniform(0, 0.5))
             except requests.HTTPError as e:
                 last_exc = e
                 resp_text = ""
@@ -128,7 +129,7 @@ class WeReadClient:
                     api_name, attempt, self.retry_times, e, resp_text,
                 )
                 if attempt < self.retry_times:
-                    time.sleep(2 ** attempt + self.request_delay)
+                    time.sleep(2 ** attempt + self.request_delay + random.uniform(0, 0.5))
             except requests.RequestException as e:
                 last_exc = e
                 logger.warning(
@@ -136,7 +137,7 @@ class WeReadClient:
                     api_name, attempt, self.retry_times, e,
                 )
                 if attempt < self.retry_times:
-                    time.sleep(2 ** attempt + self.request_delay)
+                    time.sleep(2 ** attempt + self.request_delay + random.uniform(0, 0.5))
 
         raise last_exc  # type: ignore
 

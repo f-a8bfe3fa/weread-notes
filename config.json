@@ -12,7 +12,7 @@
     "reviews_page_size": 20,
     "timeout_seconds": 30,
     "retry_times": 3,
-    "request_delay_seconds": 0.3
+    "request_delay_seconds": 1.0
   },
   "output": {
     "data_dir": "data",
