@@ -43,6 +43,7 @@ class WeReadClient:
         self.skill_version = config["weread"]["skill_version"]
         self.timeout = config["sync"]["timeout_seconds"]
         self.retry_times = config["sync"]["retry_times"]
+        self.request_delay = config["sync"].get("request_delay_seconds", 0)
 
         api_key = get_env("WEREAD_API_KEY")
         if not api_key:
@@ -101,6 +102,8 @@ class WeReadClient:
                     errmsg = data.get("errmsg", "未知错误")
                     raise WeReadAPIError(api_name, errcode, errmsg)
 
+                if self.request_delay:
+                    time.sleep(self.request_delay)
                 return data
 
             except UpgradeRequiredError:
@@ -112,7 +115,7 @@ class WeReadClient:
                     api_name, attempt, self.retry_times, e,
                 )
                 if attempt < self.retry_times:
-                    time.sleep(2 ** attempt)
+                    time.sleep(2 ** attempt + self.request_delay)
             except requests.HTTPError as e:
                 last_exc = e
                 resp_text = ""
@@ -125,7 +128,7 @@ class WeReadClient:
                     api_name, attempt, self.retry_times, e, resp_text,
                 )
                 if attempt < self.retry_times:
-                    time.sleep(2 ** attempt)
+                    time.sleep(2 ** attempt + self.request_delay)
             except requests.RequestException as e:
                 last_exc = e
                 logger.warning(
@@ -133,7 +136,7 @@ class WeReadClient:
                     api_name, attempt, self.retry_times, e,
                 )
                 if attempt < self.retry_times:
-                    time.sleep(2 ** attempt)
+                    time.sleep(2 ** attempt + self.request_delay)
 
         raise last_exc  # type: ignore
 

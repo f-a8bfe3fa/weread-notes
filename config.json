@@ -11,7 +11,8 @@
     "notebooks_page_size": 100,
     "reviews_page_size": 20,
     "timeout_seconds": 30,
-    "retry_times": 3
+    "retry_times": 3,
+    "request_delay_seconds": 0.3
   },
   "output": {
     "data_dir": "data",
