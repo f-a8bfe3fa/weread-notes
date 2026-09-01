@@ -37,16 +37,17 @@ jobs:
 
       - name: Sync upstream code (preserve user data & workflows)
         run: |
-          # 1. 用上游 main 覆盖代码、脚本、配置
-          git checkout upstream/main -- .
-
-          # 2. 恢复本地不想被覆盖的内容
-          #    .github/workflows/          : 本地工作流文件
-          #    data/                       : 所有书籍笔记数据
-          #    index.json                  : 书籍索引
-          #    notion_push_failures.json   : Notion 推送失败日志
-          #    logs/                       : 未来可能生成的日志目录
-          git checkout HEAD -- .github/workflows/ data/ index.json notion_push_failures.json logs/ 2>/dev/null || true
+          # 只同步代码与项目配置，绝不碰用户数据、索引和工作流。
+          # 子项目的 index.json / data/ / notion_push_failures.json / logs/
+          # 是自己的笔记数据，主项目不应覆盖。
+          git checkout upstream/main -- \
+            scripts/ \
+            config.json \
+            requirements.txt \
+            README.md \
+            weread.md \
+            .gitignore \
+            .gitattributes
 
       - name: Commit and push updates
         run: |
