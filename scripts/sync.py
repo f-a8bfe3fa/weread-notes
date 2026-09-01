@@ -162,14 +162,6 @@ def fetch_book_data(client: WeReadClient, book_id: str) -> dict:
         logger.warning("获取阅读进度失败 [%s]: %s", book_id, e)
         progress = {}
 
-    # 6. 热门划线（可选）
-    try:
-        hot_data = client.get_best_bookmarks(book_id)
-        hot_bookmarks = hot_data.get("items", [])
-    except Exception as e:
-        logger.warning("获取热门划线失败 [%s]: %s", book_id, e)
-        hot_bookmarks = []
-
     # ── 构建章节数据映射 ──────────────────────────────────
     chapter_map: dict[int, dict] = {}
     for ch in chapters:
@@ -284,30 +276,6 @@ def fetch_book_data(client: WeReadClient, book_id: str) -> dict:
             }
         content_by_chapter[uid]["items"].append(rv)
 
-    # ── 处理热门划线 ──────────────────────────────────────
-    hot_bookmarks_clean = []
-    for hb in hot_bookmarks:
-        hb_chapter_uid = hb.get("chapterUid", 0)
-        hb_range = hb.get("range", "")
-        hb_range_start, hb_range_end = parse_range(hb_range)
-        hot_bookmarks_clean.append({
-            "bookmarkId": hb.get("bookmarkId", ""),
-            "chapterUid": hb_chapter_uid,
-            "range": hb_range,
-            "markText": hb.get("markText", ""),
-            "totalCount": hb.get("totalCount", 0),
-            "appLink": (
-                f"weread://bestbookmark?bookId={book_id}"
-                f"&chapterUid={hb_chapter_uid}"
-                f"&rangeStart={hb_range_start}&rangeEnd={hb_range_end}"
-                if hb_range_start and hb_range_end and hb_chapter_uid else ""
-            ),
-            "webLink": (
-                get_weread_web_bookmark_url(book_id, hb_chapter_uid, hb_range_start, hb_range_end)
-                if hb_range_start and hb_range_end and hb_chapter_uid else ""
-            ),
-        })
-
     # ── 处理进度数据 ──────────────────────────────────────
     progress_val = progress.get("progress", 0)
     reading_progress = f"{progress_val}%"
@@ -387,7 +355,6 @@ def fetch_book_data(client: WeReadClient, book_id: str) -> dict:
         ],
         "content": list(content_by_chapter.values()),
         "bookReviews": book_reviews,
-        "hotBookmarks": hot_bookmarks_clean,
         "readProgress": {
             "chapterUid": progress.get("chapterUid", 0),
             "chapterOffset": progress.get("chapterOffset", 0),

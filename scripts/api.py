@@ -204,14 +204,6 @@ class WeReadClient:
         """获取单本书的划线列表（不含书签，无分页）"""
         return self._request("/book/bookmarklist", bookId=book_id)
 
-    def get_best_bookmarks(self, book_id: str, chapter_uid: int = 0) -> dict:
-        """获取书籍热门划线（可选，固定返回前20条）"""
-        return self._request(
-            "/book/bestbookmarks",
-            bookId=book_id,
-            chapterUid=chapter_uid,
-        )
-
     # ── 想法/点评 ──────────────────────────────────────────────
 
     def get_my_reviews(self, book_id: str, synckey: int = 0) -> dict:
