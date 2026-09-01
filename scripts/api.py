@@ -7,6 +7,7 @@
 """
 
 import logging
+import random
 import time
 
 import requests
@@ -43,6 +44,7 @@ class WeReadClient:
         self.skill_version = config["weread"]["skill_version"]
         self.timeout = config["sync"]["timeout_seconds"]
         self.retry_times = config["sync"]["retry_times"]
+        self.request_delay = config["sync"].get("request_delay_seconds", 0)
 
         api_key = get_env("WEREAD_API_KEY")
         if not api_key:
@@ -54,6 +56,13 @@ class WeReadClient:
             {
                 "Authorization": f"Bearer {api_key}",
                 "Content-Type": "application/json",
+                "User-Agent": (
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                    "AppleWebKit/537.36 (KHTML, like Gecko) "
+                    "Chrome/128.0.0.0 Safari/537.36"
+                ),
+                "Accept": "application/json, text/plain, */*",
+                "Accept-Language": "zh-CN,zh;q=0.9",
             }
         )
 
@@ -94,6 +103,8 @@ class WeReadClient:
                     errmsg = data.get("errmsg", "未知错误")
                     raise WeReadAPIError(api_name, errcode, errmsg)
 
+                delay = self.request_delay + random.uniform(0, 0.5)
+                time.sleep(delay)
                 return data
 
             except UpgradeRequiredError:
@@ -105,7 +116,20 @@ class WeReadClient:
                     api_name, attempt, self.retry_times, e,
                 )
                 if attempt < self.retry_times:
-                    time.sleep(2 ** attempt)
+                    time.sleep(2 ** attempt + self.request_delay + random.uniform(0, 0.5))
+            except requests.HTTPError as e:
+                last_exc = e
+                resp_text = ""
+                try:
+                    resp_text = e.response.text[:500]
+                except Exception:
+                    pass
+                logger.warning(
+                    "[%s] HTTP 错误 (第%d/%d次): %s | 响应体: %s",
+                    api_name, attempt, self.retry_times, e, resp_text,
+                )
+                if attempt < self.retry_times:
+                    time.sleep(2 ** attempt + self.request_delay + random.uniform(0, 0.5))
             except requests.RequestException as e:
                 last_exc = e
                 logger.warning(
@@ -113,7 +137,7 @@ class WeReadClient:
                     api_name, attempt, self.retry_times, e,
                 )
                 if attempt < self.retry_times:
-                    time.sleep(2 ** attempt)
+                    time.sleep(2 ** attempt + self.request_delay + random.uniform(0, 0.5))
 
         raise last_exc  # type: ignore
 
