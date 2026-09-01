@@ -2,8 +2,8 @@ name: Daily Sync Upstream
 
 on:
   schedule:
-    # 每天北京时间 02:00 运行（UTC 18:00），和每日笔记同步 01:00 错开
-    - cron: '0 18 * * *'
+    # 每天北京时间 04:00 运行（UTC 20:00），和每日笔记同步 01:00 错开
+    - cron: '0 20 * * *'
   workflow_dispatch: # 支持手动点击一键同步
 
 concurrency:
