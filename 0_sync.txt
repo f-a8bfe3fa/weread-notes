@@ -1,167 +1,273 @@
-﻿2026-09-01T22:28:37.6389570Z Current runner version: '2.337.0'
-2026-09-01T22:28:37.6426312Z ##[group]Runner Image Provisioner
-2026-09-01T22:28:37.6427890Z Hosted Compute Agent
-2026-09-01T22:28:37.6428896Z Version: 20260819.586
-2026-09-01T22:28:37.6430254Z Commit: 3cc4a88dfa507ef76119ad1bb3eccc6378bb2b76
-2026-09-01T22:28:37.6431635Z Build Date: 2026-08-18T23:20:18Z
-2026-09-01T22:28:37.6433362Z Worker ID: {97e407b5-2f12-4fe2-a650-e9a8d669fc25}
-2026-09-01T22:28:37.6434982Z Azure Region: centralus
-2026-09-01T22:28:37.6436080Z ##[endgroup]
-2026-09-01T22:28:37.6438723Z ##[group]Operating System
-2026-09-01T22:28:37.6439808Z Ubuntu
-2026-09-01T22:28:37.6440667Z 24.04.4
-2026-09-01T22:28:37.6441681Z LTS
-2026-09-01T22:28:37.6442515Z ##[endgroup]
-2026-09-01T22:28:37.6443871Z ##[group]Runner Image
-2026-09-01T22:28:37.6444937Z Image: ubuntu-24.04
-2026-09-01T22:28:37.6445897Z Version: 20260823.283.1
-2026-09-01T22:28:37.6448306Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260823.283/images/ubuntu/Ubuntu2404-Readme.md
-2026-09-01T22:28:37.6451280Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260823.283
-2026-09-01T22:28:37.6453544Z ##[endgroup]
-2026-09-01T22:28:37.6455563Z ##[group]GITHUB_TOKEN Permissions
-2026-09-01T22:28:37.6458742Z Contents: write
-2026-09-01T22:28:37.6459731Z Metadata: read
-2026-09-01T22:28:37.6460907Z ##[endgroup]
-2026-09-01T22:28:37.6464498Z Secret source: Actions
-2026-09-01T22:28:37.6466890Z Prepare workflow directory
-2026-09-01T22:28:37.7081202Z Prepare all required actions
-2026-09-01T22:28:37.7235175Z Getting action download info
-2026-09-01T22:28:38.0635288Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
-2026-09-01T22:28:38.3116662Z Complete job name: sync
-2026-09-01T22:28:38.3973052Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
-2026-09-01T22:28:38.3981251Z ##[group]Run actions/checkout@v4
-2026-09-01T22:28:38.3981994Z with:
-2026-09-01T22:28:38.3982417Z   fetch-depth: 0
-2026-09-01T22:28:38.3983354Z   repository: y-b0f1e76a/weread-notes
-2026-09-01T22:28:38.3987109Z   token: ***
-2026-09-01T22:28:38.3987538Z   ssh-strict: true
-2026-09-01T22:28:38.3987980Z   ssh-user: git
-2026-09-01T22:28:38.3988429Z   persist-credentials: true
-2026-09-01T22:28:38.3988915Z   clean: true
-2026-09-01T22:28:38.3989364Z   sparse-checkout-cone-mode: true
-2026-09-01T22:28:38.3989880Z   fetch-tags: false
-2026-09-01T22:28:38.3990329Z   show-progress: true
-2026-09-01T22:28:38.3990777Z   lfs: false
-2026-09-01T22:28:38.3991221Z   submodules: false
-2026-09-01T22:28:38.3991679Z   set-safe-directory: true
-2026-09-01T22:28:38.3992187Z   allow-unsafe-pr-checkout: false
-2026-09-01T22:28:38.3993236Z ##[endgroup]
-2026-09-01T22:28:38.5341602Z Syncing repository: y-b0f1e76a/weread-notes
-2026-09-01T22:28:38.5350801Z ##[group]Getting Git version info
-2026-09-01T22:28:38.5352027Z Working directory is '/home/runner/work/weread-notes/weread-notes'
-2026-09-01T22:28:38.5354006Z [command]/usr/bin/git version
-2026-09-01T22:28:38.5354809Z git version 2.55.0
-2026-09-01T22:28:38.5357646Z ##[endgroup]
-2026-09-01T22:28:38.5364369Z Temporarily overriding HOME='/home/runner/work/_temp/14d64fec-00c3-4e2a-b43e-60019f0a1e85' before making global git config changes
-2026-09-01T22:28:38.5366886Z Adding repository directory to the temporary git global config as a safe directory
-2026-09-01T22:28:38.5368870Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/weread-notes/weread-notes
-2026-09-01T22:28:38.5455312Z Deleting the contents of '/home/runner/work/weread-notes/weread-notes'
-2026-09-01T22:28:38.5466059Z ##[group]Initializing the repository
-2026-09-01T22:28:38.5468148Z [command]/usr/bin/git init /home/runner/work/weread-notes/weread-notes
-2026-09-01T22:28:38.5581752Z hint: Using 'master' as the name for the initial branch. This default branch name
-2026-09-01T22:28:38.5601127Z hint: will change to "main" in Git 3.0. To configure the initial branch name
-2026-09-01T22:28:38.5605099Z hint: to use in all of your new repositories, which will suppress this warning,
-2026-09-01T22:28:38.5606714Z hint: call:
-2026-09-01T22:28:38.5607591Z hint:
-2026-09-01T22:28:38.5608587Z hint: 	git config --global init.defaultBranch <name>
-2026-09-01T22:28:38.5609773Z hint:
-2026-09-01T22:28:38.5610904Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
-2026-09-01T22:28:38.5613321Z hint: 'development'. The just-created branch can be renamed via this command:
-2026-09-01T22:28:38.5614810Z hint:
-2026-09-01T22:28:38.5615722Z hint: 	git branch -m <name>
-2026-09-01T22:28:38.5616717Z hint:
-2026-09-01T22:28:38.5617960Z hint: Disable this message with "git config set advice.defaultBranchName false"
-2026-09-01T22:28:38.5619925Z Initialized empty Git repository in /home/runner/work/weread-notes/weread-notes/.git/
-2026-09-01T22:28:38.5623505Z [command]/usr/bin/git remote add origin https://github.com/y-b0f1e76a/weread-notes
-2026-09-01T22:28:38.5863447Z ##[endgroup]
-2026-09-01T22:28:38.5865148Z ##[group]Disabling automatic garbage collection
-2026-09-01T22:28:38.5866720Z [command]/usr/bin/git config --local gc.auto 0
-2026-09-01T22:28:38.5869934Z ##[endgroup]
-2026-09-01T22:28:38.5871339Z ##[group]Setting up auth
-2026-09-01T22:28:38.5873461Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
-2026-09-01T22:28:38.5877614Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
-2026-09-01T22:28:38.7344318Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
-2026-09-01T22:28:38.7349606Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
-2026-09-01T22:28:38.7355332Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
-2026-09-01T22:28:38.7359090Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
-2026-09-01T22:28:38.7440965Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
-2026-09-01T22:28:38.7485685Z ##[endgroup]
-2026-09-01T22:28:38.7487876Z ##[group]Fetching the repository
-2026-09-01T22:28:38.7498526Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
-2026-09-01T22:28:42.4292677Z From https://github.com/y-b0f1e76a/weread-notes
-2026-09-01T22:28:42.4294053Z  * [new branch]        main                   -> origin/main
-2026-09-01T22:28:42.4314409Z  * [new branch]        trae/solo-agent-A2sREi -> origin/trae/solo-agent-A2sREi
-2026-09-01T22:28:42.4317670Z  * [new branch]        trae/solo-agent-OA1irT -> origin/trae/solo-agent-OA1irT
-2026-09-01T22:28:42.4344155Z  * [new branch]        trae/solo-agent-dWgKS9 -> origin/trae/solo-agent-dWgKS9
-2026-09-01T22:28:42.4380442Z  * [new branch]        trae/solo-agent-gRIDZD -> origin/trae/solo-agent-gRIDZD
-2026-09-01T22:28:42.4382016Z  * [new branch]        trae/solo-agent-lGfEw2 -> origin/trae/solo-agent-lGfEw2
-2026-09-01T22:28:42.4386524Z [command]/usr/bin/git branch --list --remote origin/main
-2026-09-01T22:28:42.4387603Z   origin/main
-2026-09-01T22:28:42.4389528Z [command]/usr/bin/git rev-parse refs/remotes/origin/main
-2026-09-01T22:28:42.4413633Z e481473e75ae0dc369f0d3b4c28e20c63eb7c21a
-2026-09-01T22:28:42.4426214Z ##[endgroup]
-2026-09-01T22:28:42.4427622Z ##[group]Determining the checkout info
-2026-09-01T22:28:42.4428926Z ##[endgroup]
-2026-09-01T22:28:42.4429791Z [command]/usr/bin/git sparse-checkout disable
-2026-09-01T22:28:42.4483400Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
-2026-09-01T22:28:42.4529310Z ##[group]Checking out the ref
-2026-09-01T22:28:42.4530537Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
-2026-09-01T22:28:43.0032016Z Switched to a new branch 'main'
-2026-09-01T22:28:43.0057103Z branch 'main' set up to track 'origin/main'.
-2026-09-01T22:28:43.0119916Z ##[endgroup]
-2026-09-01T22:28:43.0172036Z [command]/usr/bin/git log -1 --format=%H
-2026-09-01T22:28:43.0206438Z e481473e75ae0dc369f0d3b4c28e20c63eb7c21a
-2026-09-01T22:28:43.0417627Z ##[group]Run git config user.name "github-actions[bot]"
-2026-09-01T22:28:43.0418177Z [36;1mgit config user.name "github-actions[bot]"[0m
-2026-09-01T22:28:43.0418687Z [36;1mgit config user.email "github-actions[bot]@users.noreply.github.com"[0m
-2026-09-01T22:28:43.0460913Z shell: /usr/bin/bash -e {0}
-2026-09-01T22:28:43.0461257Z ##[endgroup]
-2026-09-01T22:28:43.0619614Z ##[group]Run git remote add upstream https://github.com/f-a8bfe3fa/weread-notes.git 2>/dev/null || true
-2026-09-01T22:28:43.0620542Z [36;1mgit remote add upstream https://github.com/f-a8bfe3fa/weread-notes.git 2>/dev/null || true[0m
-2026-09-01T22:28:43.0621120Z [36;1mgit fetch upstream main[0m
-2026-09-01T22:28:43.0658125Z shell: /usr/bin/bash -e {0}
-2026-09-01T22:28:43.0658456Z ##[endgroup]
-2026-09-01T22:28:44.2245209Z From https://github.com/f-a8bfe3fa/weread-notes
-2026-09-01T22:28:44.2246174Z  * branch              main       -> FETCH_HEAD
-2026-09-01T22:28:44.2246978Z  * [new branch]        main       -> upstream/main
-2026-09-01T22:28:44.2285753Z ##[group]Run # 1. 用上游 main 覆盖代码、脚本、配置
-2026-09-01T22:28:44.2286115Z [36;1m# 1. 用上游 main 覆盖代码、脚本、配置[0m
-2026-09-01T22:28:44.2286402Z [36;1mgit checkout upstream/main -- .[0m
-2026-09-01T22:28:44.2286678Z [36;1m[0m
-2026-09-01T22:28:44.2286871Z [36;1m# 2. 恢复本地不想被覆盖的内容[0m
-2026-09-01T22:28:44.2287139Z [36;1m#    .github/workflows/          : 本地工作流文件[0m
-2026-09-01T22:28:44.2287457Z [36;1m#    data/                       : 所有书籍笔记数据[0m
-2026-09-01T22:28:44.2287783Z [36;1m#    index.json                  : 书籍索引[0m
-2026-09-01T22:28:44.2288109Z [36;1m#    notion_push_failures.json   : Notion 推送失败日志[0m
-2026-09-01T22:28:44.2288451Z [36;1m#    logs/                       : 未来可能生成的日志目录[0m
-2026-09-01T22:28:44.2288992Z [36;1mgit checkout HEAD -- .github/workflows/ data/ index.json notion_push_failures.json logs/ 2>/dev/null || true[0m
-2026-09-01T22:28:44.2327845Z shell: /usr/bin/bash -e {0}
-2026-09-01T22:28:44.2328134Z ##[endgroup]
-2026-09-01T22:28:44.2655222Z ##[group]Run git add -A
-2026-09-01T22:28:44.2655526Z [36;1mgit add -A[0m
-2026-09-01T22:28:44.2655770Z [36;1mif git diff --staged --quiet; then[0m
-2026-09-01T22:28:44.2656077Z [36;1m  echo "No upstream updates found."[0m
-2026-09-01T22:28:44.2656351Z [36;1melse[0m
-2026-09-01T22:28:44.2656602Z [36;1m  git commit -m "chore: daily sync upstream code"[0m
-2026-09-01T22:28:44.2656938Z [36;1m  git push origin main[0m
-2026-09-01T22:28:44.2657172Z [36;1mfi[0m
-2026-09-01T22:28:44.2693899Z shell: /usr/bin/bash -e {0}
-2026-09-01T22:28:44.2694187Z ##[endgroup]
-2026-09-01T22:28:44.3136161Z No upstream updates found.
-2026-09-01T22:28:44.3259504Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
-2026-09-01T22:28:44.3261124Z Post job cleanup.
-2026-09-01T22:28:44.4243454Z [command]/usr/bin/git version
-2026-09-01T22:28:44.4293524Z git version 2.55.0
-2026-09-01T22:28:44.4368335Z Temporarily overriding HOME='/home/runner/work/_temp/cc376569-ffad-4530-88a3-c56a5df6d92c' before making global git config changes
-2026-09-01T22:28:44.4369846Z Adding repository directory to the temporary git global config as a safe directory
-2026-09-01T22:28:44.4371193Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/weread-notes/weread-notes
-2026-09-01T22:28:44.4421245Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
-2026-09-01T22:28:44.4477082Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
-2026-09-01T22:28:44.4884131Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
-2026-09-01T22:28:44.4903622Z http.https://github.com/.extraheader
-2026-09-01T22:28:44.4972011Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
-2026-09-01T22:28:44.4999398Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
-2026-09-01T22:28:44.5481309Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
-2026-09-01T22:28:44.5553681Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
-2026-09-01T22:28:44.6331523Z Cleaning up orphan processes
-2026-09-01T22:28:44.6596838Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+﻿2026-09-01T23:41:43.3832058Z Current runner version: '2.337.0'
+2026-09-01T23:41:43.3856122Z ##[group]Runner Image Provisioner
+2026-09-01T23:41:43.3857059Z Hosted Compute Agent
+2026-09-01T23:41:43.3857681Z Version: 20260819.586
+2026-09-01T23:41:43.3858386Z Commit: 3cc4a88dfa507ef76119ad1bb3eccc6378bb2b76
+2026-09-01T23:41:43.3859168Z Build Date: 2026-08-18T23:20:18Z
+2026-09-01T23:41:43.3859876Z Worker ID: {d114fa5d-4177-4414-8123-3319c824675d}
+2026-09-01T23:41:43.3860656Z Azure Region: westus3
+2026-09-01T23:41:43.3861252Z ##[endgroup]
+2026-09-01T23:41:43.3862716Z ##[group]Operating System
+2026-09-01T23:41:43.3863403Z Ubuntu
+2026-09-01T23:41:43.3863983Z 24.04.4
+2026-09-01T23:41:43.3864528Z LTS
+2026-09-01T23:41:43.3865226Z ##[endgroup]
+2026-09-01T23:41:43.3865869Z ##[group]Runner Image
+2026-09-01T23:41:43.3866509Z Image: ubuntu-24.04
+2026-09-01T23:41:43.3867099Z Version: 20260823.283.1
+2026-09-01T23:41:43.3868404Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260823.283/images/ubuntu/Ubuntu2404-Readme.md
+2026-09-01T23:41:43.3869907Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260823.283
+2026-09-01T23:41:43.3870908Z ##[endgroup]
+2026-09-01T23:41:43.3872331Z ##[group]GITHUB_TOKEN Permissions
+2026-09-01T23:41:43.3874646Z Contents: write
+2026-09-01T23:41:43.3875408Z Metadata: read
+2026-09-01T23:41:43.3875993Z ##[endgroup]
+2026-09-01T23:41:43.3878035Z Secret source: Actions
+2026-09-01T23:41:43.3879175Z Prepare workflow directory
+2026-09-01T23:41:43.5310819Z Prepare all required actions
+2026-09-01T23:41:43.5468775Z Getting action download info
+2026-09-01T23:41:43.9631734Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-09-01T23:41:44.5188975Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-09-01T23:41:45.5685886Z Complete job name: sync
+2026-09-01T23:41:45.6560087Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-01T23:41:45.6571554Z ##[group]Run actions/checkout@v4
+2026-09-01T23:41:45.6573096Z with:
+2026-09-01T23:41:45.6574196Z   repository: y-b0f1e76a/weread-notes
+2026-09-01T23:41:45.6583256Z   token: ***
+2026-09-01T23:41:45.6584450Z   ssh-strict: true
+2026-09-01T23:41:45.6585663Z   ssh-user: git
+2026-09-01T23:41:45.6586801Z   persist-credentials: true
+2026-09-01T23:41:45.6588109Z   clean: true
+2026-09-01T23:41:45.6589217Z   sparse-checkout-cone-mode: true
+2026-09-01T23:41:45.6590528Z   fetch-depth: 1
+2026-09-01T23:41:45.6591633Z   fetch-tags: false
+2026-09-01T23:41:45.6592760Z   show-progress: true
+2026-09-01T23:41:45.6593878Z   lfs: false
+2026-09-01T23:41:45.6595157Z   submodules: false
+2026-09-01T23:41:45.6596333Z   set-safe-directory: true
+2026-09-01T23:41:45.6597617Z   allow-unsafe-pr-checkout: false
+2026-09-01T23:41:45.6599475Z ##[endgroup]
+2026-09-01T23:41:45.7837064Z Syncing repository: y-b0f1e76a/weread-notes
+2026-09-01T23:41:45.7841298Z ##[group]Getting Git version info
+2026-09-01T23:41:45.7843729Z Working directory is '/home/runner/work/weread-notes/weread-notes'
+2026-09-01T23:41:45.7857042Z [command]/usr/bin/git version
+2026-09-01T23:41:45.7889087Z git version 2.55.0
+2026-09-01T23:41:45.7973464Z ##[endgroup]
+2026-09-01T23:41:45.8005448Z Temporarily overriding HOME='/home/runner/work/_temp/e377cae3-f60e-414a-b94c-af94282870f2' before making global git config changes
+2026-09-01T23:41:45.8011155Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-01T23:41:45.8016061Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/weread-notes/weread-notes
+2026-09-01T23:41:45.8063219Z Deleting the contents of '/home/runner/work/weread-notes/weread-notes'
+2026-09-01T23:41:45.8067490Z ##[group]Initializing the repository
+2026-09-01T23:41:45.8070397Z [command]/usr/bin/git init /home/runner/work/weread-notes/weread-notes
+2026-09-01T23:41:45.8216750Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-09-01T23:41:45.8220746Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-09-01T23:41:45.8224647Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-09-01T23:41:45.8228166Z hint: call:
+2026-09-01T23:41:45.8230223Z hint:
+2026-09-01T23:41:45.8232216Z hint: 	git config --global init.defaultBranch <name>
+2026-09-01T23:41:45.8234848Z hint:
+2026-09-01T23:41:45.8237561Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-09-01T23:41:45.8241177Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-09-01T23:41:45.8244219Z hint:
+2026-09-01T23:41:45.8246506Z hint: 	git branch -m <name>
+2026-09-01T23:41:45.8249873Z hint:
+2026-09-01T23:41:45.8252703Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-09-01T23:41:45.8257168Z Initialized empty Git repository in /home/runner/work/weread-notes/weread-notes/.git/
+2026-09-01T23:41:45.8264021Z [command]/usr/bin/git remote add origin https://github.com/y-b0f1e76a/weread-notes
+2026-09-01T23:41:45.8378104Z ##[endgroup]
+2026-09-01T23:41:45.8381541Z ##[group]Disabling automatic garbage collection
+2026-09-01T23:41:45.8386652Z [command]/usr/bin/git config --local gc.auto 0
+2026-09-01T23:41:45.8397642Z ##[endgroup]
+2026-09-01T23:41:45.8400428Z ##[group]Setting up auth
+2026-09-01T23:41:45.8402960Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-01T23:41:45.8410631Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-01T23:41:45.8882866Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-01T23:41:45.8932213Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-01T23:41:45.9216224Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-01T23:41:45.9254817Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-01T23:41:45.9451368Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-09-01T23:41:45.9477139Z ##[endgroup]
+2026-09-01T23:41:45.9480766Z ##[group]Fetching the repository
+2026-09-01T23:41:45.9489338Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +677ee38f5f7eac0565a0df3b9e839e6be6641de7:refs/remotes/origin/main
+2026-09-01T23:41:55.5781387Z From https://github.com/y-b0f1e76a/weread-notes
+2026-09-01T23:41:55.5782944Z  * [new ref]         677ee38f5f7eac0565a0df3b9e839e6be6641de7 -> origin/main
+2026-09-01T23:41:55.5786322Z ##[endgroup]
+2026-09-01T23:41:55.5787184Z ##[group]Determining the checkout info
+2026-09-01T23:41:55.5788588Z ##[endgroup]
+2026-09-01T23:41:55.5809093Z [command]/usr/bin/git sparse-checkout disable
+2026-09-01T23:41:55.5859264Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-09-01T23:41:55.5889744Z ##[group]Checking out the ref
+2026-09-01T23:41:55.5895096Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-09-01T23:41:56.1172055Z Switched to a new branch 'main'
+2026-09-01T23:41:56.1187788Z branch 'main' set up to track 'origin/main'.
+2026-09-01T23:41:56.1211948Z ##[endgroup]
+2026-09-01T23:41:56.2481016Z [command]/usr/bin/git log -1 --format=%H
+2026-09-01T23:41:56.2515695Z 677ee38f5f7eac0565a0df3b9e839e6be6641de7
+2026-09-01T23:41:56.2789066Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-01T23:41:56.2790914Z ##[group]Run actions/setup-python@v5
+2026-09-01T23:41:56.2791279Z with:
+2026-09-01T23:41:56.2791644Z   python-version: 3.10
+2026-09-01T23:41:56.2792023Z   check-latest: false
+2026-09-01T23:41:56.2794308Z   token: ***
+2026-09-01T23:41:56.2794637Z   update-environment: true
+2026-09-01T23:41:56.2795088Z   allow-prereleases: false
+2026-09-01T23:41:56.2795479Z   freethreaded: false
+2026-09-01T23:41:56.2795818Z ##[endgroup]
+2026-09-01T23:41:56.4162998Z ##[group]Installed versions
+2026-09-01T23:41:56.4247494Z (node:1934) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-09-01T23:41:56.4248944Z Successfully set up CPython (3.10.21)
+2026-09-01T23:41:56.4249982Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-09-01T23:41:56.4283390Z ##[endgroup]
+2026-09-01T23:41:56.4483347Z ##[group]Run python -m pip install --upgrade pip
+2026-09-01T23:41:56.4484250Z [36;1mpython -m pip install --upgrade pip[0m
+2026-09-01T23:41:56.4485179Z [36;1mpip install -r requirements.txt[0m
+2026-09-01T23:41:56.4643787Z shell: /usr/bin/bash -e {0}
+2026-09-01T23:41:56.4644490Z env:
+2026-09-01T23:41:56.4645537Z   pythonLocation: /opt/hostedtoolcache/Python/3.10.21/x64
+2026-09-01T23:41:56.4646345Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.10.21/x64/lib/pkgconfig
+2026-09-01T23:41:56.4647194Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.21/x64
+2026-09-01T23:41:56.4648061Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.21/x64
+2026-09-01T23:41:56.4648778Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.21/x64
+2026-09-01T23:41:56.4649673Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.10.21/x64/lib
+2026-09-01T23:41:56.4650312Z ##[endgroup]
+2026-09-01T23:42:01.5728884Z Requirement already satisfied: pip in /opt/hostedtoolcache/Python/3.10.21/x64/lib/python3.10/site-packages (26.2.1)
+2026-09-01T23:42:02.8344142Z Collecting requests>=2.28.0 (from -r requirements.txt (line 1))
+2026-09-01T23:42:02.8855948Z   Downloading requests-2.34.2-py3-none-any.whl.metadata (4.8 kB)
+2026-09-01T23:42:02.9216458Z Collecting python-dotenv>=1.0.0 (from -r requirements.txt (line 2))
+2026-09-01T23:42:02.9244045Z   Downloading python_dotenv-1.2.3-py3-none-any.whl.metadata (29 kB)
+2026-09-01T23:42:02.9500937Z Collecting notion-client>=2.0.0 (from -r requirements.txt (line 3))
+2026-09-01T23:42:02.9536978Z   Downloading notion_client-3.1.0-py2.py3-none-any.whl.metadata (17 kB)
+2026-09-01T23:42:03.1281723Z Collecting charset_normalizer<4,>=2 (from requests>=2.28.0->-r requirements.txt (line 1))
+2026-09-01T23:42:03.1321754Z   Downloading charset_normalizer-3.5.1-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (45 kB)
+2026-09-01T23:42:03.2249970Z Collecting idna<4,>=2.5 (from requests>=2.28.0->-r requirements.txt (line 1))
+2026-09-01T23:42:03.2285497Z   Downloading idna-3.19-py3-none-any.whl.metadata (9.2 kB)
+2026-09-01T23:42:03.3383319Z Collecting urllib3<3,>=1.26 (from requests>=2.28.0->-r requirements.txt (line 1))
+2026-09-01T23:42:03.3421072Z   Downloading urllib3-2.7.0-py3-none-any.whl.metadata (6.9 kB)
+2026-09-01T23:42:03.4107870Z Collecting certifi>=2023.5.7 (from requests>=2.28.0->-r requirements.txt (line 1))
+2026-09-01T23:42:03.4145758Z   Downloading certifi-2026.7.22-py3-none-any.whl.metadata (2.5 kB)
+2026-09-01T23:42:03.4402064Z Collecting httpx>=0.23.0 (from notion-client>=2.0.0->-r requirements.txt (line 3))
+2026-09-01T23:42:03.4442505Z   Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
+2026-09-01T23:42:03.4744026Z Collecting anyio (from httpx>=0.23.0->notion-client>=2.0.0->-r requirements.txt (line 3))
+2026-09-01T23:42:03.4783316Z   Downloading anyio-4.14.2-py3-none-any.whl.metadata (4.6 kB)
+2026-09-01T23:42:03.5012885Z Collecting httpcore==1.* (from httpx>=0.23.0->notion-client>=2.0.0->-r requirements.txt (line 3))
+2026-09-01T23:42:03.5048997Z   Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+2026-09-01T23:42:03.5257215Z Collecting h11>=0.16 (from httpcore==1.*->httpx>=0.23.0->notion-client>=2.0.0->-r requirements.txt (line 3))
+2026-09-01T23:42:03.5292592Z   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+2026-09-01T23:42:03.6457185Z Collecting exceptiongroup>=1.0.2 (from anyio->httpx>=0.23.0->notion-client>=2.0.0->-r requirements.txt (line 3))
+2026-09-01T23:42:03.6495674Z   Downloading exceptiongroup-1.3.1-py3-none-any.whl.metadata (6.7 kB)
+2026-09-01T23:42:03.6898619Z Collecting typing_extensions>=4.5 (from anyio->httpx>=0.23.0->notion-client>=2.0.0->-r requirements.txt (line 3))
+2026-09-01T23:42:03.6938842Z   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+2026-09-01T23:42:03.7038488Z Downloading requests-2.34.2-py3-none-any.whl (73 kB)
+2026-09-01T23:42:03.7103777Z Downloading charset_normalizer-3.5.1-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (261 kB)
+2026-09-01T23:42:03.7215873Z Downloading idna-3.19-py3-none-any.whl (68 kB)
+2026-09-01T23:42:03.7290514Z Downloading urllib3-2.7.0-py3-none-any.whl (131 kB)
+2026-09-01T23:42:03.7384718Z Downloading python_dotenv-1.2.3-py3-none-any.whl (22 kB)
+2026-09-01T23:42:03.7443766Z Downloading notion_client-3.1.0-py2.py3-none-any.whl (23 kB)
+2026-09-01T23:42:03.7502693Z Downloading certifi-2026.7.22-py3-none-any.whl (136 kB)
+2026-09-01T23:42:03.7584532Z Downloading httpx-0.28.1-py3-none-any.whl (73 kB)
+2026-09-01T23:42:03.7654327Z Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+2026-09-01T23:42:03.7732019Z Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+2026-09-01T23:42:03.7788546Z Downloading anyio-4.14.2-py3-none-any.whl (125 kB)
+2026-09-01T23:42:03.7865228Z Downloading exceptiongroup-1.3.1-py3-none-any.whl (16 kB)
+2026-09-01T23:42:03.7919374Z Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+2026-09-01T23:42:03.9937028Z Installing collected packages: urllib3, typing_extensions, python-dotenv, idna, h11, charset_normalizer, certifi, requests, httpcore, exceptiongroup, anyio, httpx, notion-client
+2026-09-01T23:42:04.6414365Z 
+2026-09-01T23:42:04.6434833Z Successfully installed anyio-4.14.2 certifi-2026.7.22 charset_normalizer-3.5.1 exceptiongroup-1.3.1 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 idna-3.19 notion-client-3.1.0 python-dotenv-1.2.3 requests-2.34.2 typing_extensions-4.16.0 urllib3-2.7.0
+2026-09-01T23:42:04.7092146Z ##[group]Run if [ -z "***" ]; then
+2026-09-01T23:42:04.7092729Z [36;1mif [ -z "***" ]; then[0m
+2026-09-01T23:42:04.7093096Z [36;1m  echo "Error: WEREAD_API_KEY is not set"[0m
+2026-09-01T23:42:04.7093513Z [36;1m  exit 1[0m
+2026-09-01T23:42:04.7093809Z [36;1mfi[0m
+2026-09-01T23:42:04.7094310Z [36;1mif [ -z "***" ]; then[0m
+2026-09-01T23:42:04.7094677Z [36;1m  echo "Error: NOTION_API_KEY is not set"[0m
+2026-09-01T23:42:04.7095309Z [36;1m  exit 1[0m
+2026-09-01T23:42:04.7095672Z [36;1mfi[0m
+2026-09-01T23:42:04.7096077Z [36;1mif [ -z "***" ]; then[0m
+2026-09-01T23:42:04.7096493Z [36;1m  echo "Error: NOTION_DATABASE_ID is not set"[0m
+2026-09-01T23:42:04.7096914Z [36;1m  exit 1[0m
+2026-09-01T23:42:04.7097211Z [36;1mfi[0m
+2026-09-01T23:42:04.7121473Z shell: /usr/bin/bash -e {0}
+2026-09-01T23:42:04.7121898Z env:
+2026-09-01T23:42:04.7122279Z   pythonLocation: /opt/hostedtoolcache/Python/3.10.21/x64
+2026-09-01T23:42:04.7122934Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.10.21/x64/lib/pkgconfig
+2026-09-01T23:42:04.7123448Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.21/x64
+2026-09-01T23:42:04.7123967Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.21/x64
+2026-09-01T23:42:04.7124429Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.21/x64
+2026-09-01T23:42:04.7125021Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.10.21/x64/lib
+2026-09-01T23:42:04.7125427Z ##[endgroup]
+2026-09-01T23:42:04.7209224Z ##[group]Run echo "Starting incremental sync..."
+2026-09-01T23:42:04.7209691Z [36;1mecho "Starting incremental sync..."[0m
+2026-09-01T23:42:04.7210300Z [36;1mpython scripts/sync.py --mode incremental[0m
+2026-09-01T23:42:04.7230821Z shell: /usr/bin/bash -e {0}
+2026-09-01T23:42:04.7231170Z env:
+2026-09-01T23:42:04.7231591Z   pythonLocation: /opt/hostedtoolcache/Python/3.10.21/x64
+2026-09-01T23:42:04.7232145Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.10.21/x64/lib/pkgconfig
+2026-09-01T23:42:04.7232656Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.21/x64
+2026-09-01T23:42:04.7233164Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.21/x64
+2026-09-01T23:42:04.7233625Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.21/x64
+2026-09-01T23:42:04.7234097Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.10.21/x64/lib
+2026-09-01T23:42:04.7234728Z   WEREAD_API_KEY: ***
+2026-09-01T23:42:04.7235378Z   NOTION_API_KEY: ***
+2026-09-01T23:42:04.7235875Z   NOTION_DATABASE_ID: ***
+2026-09-01T23:42:04.7236256Z ##[endgroup]
+2026-09-01T23:42:04.7278570Z Starting incremental sync...
+2026-09-01T23:42:05.0471452Z 2026-09-01 23:42:05 [INFO] sync: 开始增量同步
+2026-09-01T23:42:38.4769186Z 2026-09-01 23:42:38 [INFO] sync: 远程共 1622 本有笔记的书籍
+2026-09-01T23:42:38.4809386Z 2026-09-01 23:42:38 [INFO] sync: 需要同步 3 本书籍
+2026-09-01T23:42:38.4888565Z 2026-09-01 23:42:38 [INFO] sync: Notion 客户端已初始化
+2026-09-01T23:42:38.4889587Z 2026-09-01 23:42:38 [INFO] sync: 获取书籍数据: 23968230
+2026-09-01T23:42:45.5559298Z 2026-09-01 23:42:45 [INFO] sync: JSON 已保存: /home/runner/work/weread-notes/weread-notes/data/政治军事/拿破仑日记（精简珍藏版）_8230/23968230.json
+2026-09-01T23:42:45.5561926Z 2026-09-01 23:42:45 [INFO] sync: Markdown 已保存: /home/runner/work/weread-notes/weread-notes/data/政治军事/拿破仑日记（精简珍藏版）_8230/23968230.md
+2026-09-01T23:42:48.9177817Z 2026-09-01 23:42:48 [INFO] notion_push: Notion 更新（已删除并重建）: 拿破仑日记（精简珍藏版）
+2026-09-01T23:42:48.9326935Z 2026-09-01 23:42:48 [INFO] sync: 增量同步成功: 拿破仑日记（精简珍藏版）
+2026-09-01T23:42:48.9327982Z 2026-09-01 23:42:48 [INFO] sync: 获取书籍数据: 3300139654
+2026-09-01T23:42:56.6183599Z 2026-09-01 23:42:56 [INFO] sync: JSON 已保存: /home/runner/work/weread-notes/weread-notes/data/计算机/Rust权威指南（第2版）_9654/3300139654.json
+2026-09-01T23:42:56.6197946Z 2026-09-01 23:42:56 [INFO] sync: Markdown 已保存: /home/runner/work/weread-notes/weread-notes/data/计算机/Rust权威指南（第2版）_9654/3300139654.md
+2026-09-01T23:43:02.4482617Z 2026-09-01 23:43:02 [INFO] notion_push: Notion 更新（已删除并重建）: Rust权威指南（第2版）
+2026-09-01T23:43:02.4642208Z 2026-09-01 23:43:02 [INFO] sync: 增量同步成功: Rust权威指南（第2版）
+2026-09-01T23:43:02.4643855Z 2026-09-01 23:43:02 [INFO] sync: 获取书籍数据: 3300025472
+2026-09-01T23:43:09.9727966Z 2026-09-01 23:43:09 [INFO] sync: JSON 已保存: /home/runner/work/weread-notes/weread-notes/data/政治军事/胡乔木回忆毛泽东_5472/3300025472.json
+2026-09-01T23:43:09.9731897Z 2026-09-01 23:43:09 [INFO] sync: Markdown 已保存: /home/runner/work/weread-notes/weread-notes/data/政治军事/胡乔木回忆毛泽东_5472/3300025472.md
+2026-09-01T23:43:12.0219668Z 2026-09-01 23:43:12 [INFO] notion_push: Notion 更新（已删除并重建）: 胡乔木回忆毛泽东
+2026-09-01T23:43:12.0374519Z 2026-09-01 23:43:12 [INFO] sync: 增量同步成功: 胡乔木回忆毛泽东
+2026-09-01T23:43:12.0375787Z 2026-09-01 23:43:12 [INFO] sync: 增量同步完成: 成功 3, 失败 0 | Notion: 成功 3, 失败 0
+2026-09-01T23:43:12.0628797Z ##[group]Run git config --local user.email "action@github.com"
+2026-09-01T23:43:12.0629374Z [36;1mgit config --local user.email "action@github.com"[0m
+2026-09-01T23:43:12.0629826Z [36;1mgit config --local user.name "GitHub Action"[0m
+2026-09-01T23:43:12.0630304Z [36;1mgit add -A[0m
+2026-09-01T23:43:12.0630756Z [36;1mgit commit -m "Daily sync: $(date +'%Y-%m-%d %H:%M:%S')" || echo "No changes to commit"[0m
+2026-09-01T23:43:12.0631230Z [36;1mgit push[0m
+2026-09-01T23:43:12.0655730Z shell: /usr/bin/bash -e {0}
+2026-09-01T23:43:12.0656166Z env:
+2026-09-01T23:43:12.0656549Z   pythonLocation: /opt/hostedtoolcache/Python/3.10.21/x64
+2026-09-01T23:43:12.0657128Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.10.21/x64/lib/pkgconfig
+2026-09-01T23:43:12.0657649Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.21/x64
+2026-09-01T23:43:12.0658160Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.21/x64
+2026-09-01T23:43:12.0658875Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.21/x64
+2026-09-01T23:43:12.0659324Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.10.21/x64/lib
+2026-09-01T23:43:12.0659725Z ##[endgroup]
+2026-09-01T23:43:12.4526838Z [main 9ed5f67] Daily sync: 2026-09-01 23:43:12
+2026-09-01T23:43:12.4528229Z  7 files changed, 199 insertions(+), 439 deletions(-)
+2026-09-01T23:43:13.7637692Z To https://github.com/y-b0f1e76a/weread-notes
+2026-09-01T23:43:13.7638568Z    677ee38..9ed5f67  main -> main
+2026-09-01T23:43:13.7775540Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-01T23:43:13.7776871Z Post job cleanup.
+2026-09-01T23:43:13.8990437Z (node:2031) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-09-01T23:43:13.8992133Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-09-01T23:43:13.9255590Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-01T23:43:13.9257661Z Post job cleanup.
+2026-09-01T23:43:14.0344607Z [command]/usr/bin/git version
+2026-09-01T23:43:14.0404394Z git version 2.55.0
+2026-09-01T23:43:14.0554121Z Temporarily overriding HOME='/home/runner/work/_temp/8b6175fe-33de-43ec-b5ed-6b09f64d0c16' before making global git config changes
+2026-09-01T23:43:14.0586008Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-01T23:43:14.0594065Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/weread-notes/weread-notes
+2026-09-01T23:43:14.0648346Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-01T23:43:14.0747290Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-01T23:43:14.1346252Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-01T23:43:14.1383829Z http.https://github.com/.extraheader
+2026-09-01T23:43:14.1446018Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-09-01T23:43:14.1507525Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-01T23:43:14.2045998Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-01T23:43:14.2108534Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-01T23:43:14.2569099Z Cleaning up orphan processes
+2026-09-01T23:43:14.2790327Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
