@@ -1,0 +1,8 @@
+﻿2026-09-01T22:28:43.0619595Z ##[group]Run git remote add upstream https://github.com/f-a8bfe3fa/weread-notes.git 2>/dev/null || true
+2026-09-01T22:28:43.0620536Z [36;1mgit remote add upstream https://github.com/f-a8bfe3fa/weread-notes.git 2>/dev/null || true[0m
+2026-09-01T22:28:43.0621117Z [36;1mgit fetch upstream main[0m
+2026-09-01T22:28:43.0658115Z shell: /usr/bin/bash -e {0}
+2026-09-01T22:28:43.0658444Z ##[endgroup]
+2026-09-01T22:28:44.2245177Z From https://github.com/f-a8bfe3fa/weread-notes
+2026-09-01T22:28:44.2246167Z  * branch              main       -> FETCH_HEAD
+2026-09-01T22:28:44.2246973Z  * [new branch]        main       -> upstream/main
