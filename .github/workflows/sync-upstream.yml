@@ -10,6 +10,9 @@ concurrency:
   group: upstream-sync
   cancel-in-progress: false
 
+permissions:
+  contents: write
+
 jobs:
   sync:
     runs-on: ubuntu-latest
@@ -17,21 +20,10 @@ jobs:
     if: github.ref == 'refs/heads/main'
 
     steps:
-      - name: Check required secrets
-        run: |
-          if [ -z "${{ secrets.UPSTREAM_SYNC_TOKEN }}" ]; then
-            echo "Error: UPSTREAM_SYNC_TOKEN is not set."
-            echo "Because this workflow may update .github/workflows files, you need a classic"
-            echo "Personal Access Token with 'repo' and 'workflow' scopes. Add it as a"
-            echo "repository secret named UPSTREAM_SYNC_TOKEN."
-            exit 1
-          fi
-
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.UPSTREAM_SYNC_TOKEN }}
 
       - name: Configure Git
         run: |
@@ -43,17 +35,18 @@ jobs:
           git remote add upstream https://github.com/f-a8bfe3fa/weread-notes.git 2>/dev/null || true
           git fetch upstream main
 
-      - name: Sync upstream code (preserve user data)
+      - name: Sync upstream code (preserve user data & workflows)
         run: |
-          # 1. 用上游 main 覆盖所有文件（代码、脚本、配置、工作流）
+          # 1. 用上游 main 覆盖代码、脚本、配置
           git checkout upstream/main -- .
 
-          # 2. 恢复用户私有数据与日志，避免被上游测试数据覆盖
-          #    data/      : 所有书籍笔记数据
-          #    index.json : 书籍索引
-          #    notion_push_failures.json : Notion 推送失败日志
-          #    logs/      : 未来可能生成的日志目录
-          git checkout HEAD -- data/ index.json notion_push_failures.json logs/ 2>/dev/null || true
+          # 2. 恢复本地不想被覆盖的内容
+          #    .github/workflows/          : 本地工作流文件
+          #    data/                       : 所有书籍笔记数据
+          #    index.json                  : 书籍索引
+          #    notion_push_failures.json   : Notion 推送失败日志
+          #    logs/                       : 未来可能生成的日志目录
+          git checkout HEAD -- .github/workflows/ data/ index.json notion_push_failures.json logs/ 2>/dev/null || true
 
       - name: Commit and push updates
         run: |
@@ -61,6 +54,6 @@ jobs:
           if git diff --staged --quiet; then
             echo "No upstream updates found."
           else
-            git commit -m "chore: daily sync upstream code and workflows"
+            git commit -m "chore: daily sync upstream code"
             git push origin main
           fi
