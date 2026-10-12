@@ -17,6 +17,8 @@
 | 字段 | 说明 |
 |------|------|
 | `bookId` | 书籍 ID |
+| `readerLink` | 阅读器跳转链接；展示为 `[打开阅读]({readerLink})` |
+| `deepLink` | 书籍详情跳转链接；没有 `readerLink` 时可展示为 `[查看详情]({deepLink})` |
 | `title` | 书名 |
 | `author` | 作者 |
 | `translator` | 译者 |
@@ -91,7 +93,8 @@
 - 书籍详情：展示书名、作者、评分、简介等核心信息
 - 章节目录：按层级缩进展示，标注字数和付费状态
 - 阅读进度：展示百分比和阅读时长（转为小时/分钟）。**progress 是 0-100 的整数，必须带 % 号展示**（如 progress=1 展示为"1%"，progress=45 展示为"45%"）。只有 progress=100 且有 finishTime 时才表示已读完
-
+- 书籍信息获取失败时回复：`暂时无法获取书籍信息，请稍后再试~`
+- 无结果时根据用户问题自然说明没有找到对应书籍或记录，不要编造数据
 # discover — 发现推荐好书
 
 ## 接口
@@ -113,6 +116,8 @@
 |------|------|
 | `books` | 推荐书籍数组 |
 | `books[].bookId` | 书籍 ID |
+| `books[].readerLink` | 阅读器跳转链接；展示为 `[打开阅读]({readerLink})` |
+| `books[].deepLink` | 书籍详情跳转链接；没有 `readerLink` 时可展示为 `[查看详情]({deepLink})` |
 | `books[].title` | 书名 |
 | `books[].author` | 作者 |
 | `books[].cover` | 封面图 URL |
@@ -137,9 +142,11 @@
 | 参数 | 类型 | 必填 | 说明 |
 |------|------|------|------|
 | `bookId` | string | 是 | 书籍 ID |
-| `count` | int | 否 | 每页数量，默认 12 |
-| `maxIdx` | int | 否 | 翻页偏移，默认 0 |
+| `count` | int | 是 | 每页数量；实际调用必须显式传入，首次推荐传 12，用户明确指定数量时可传对应数量 |
+| `maxIdx` | int | 是 | 翻页偏移；实际调用必须显式传入，首次传 0，翻页传上一页最后一条的 `idx` |
 | `sessionId` | string | 否 | 翻页会话 ID（首次不传，后续传回包中的值） |
+
+> `/book/similar` 实际转发到 `/book/detailinfo?listtypes=2&synckey=0`。底层要求 `listTypes`、`synckey`、`maxIdx`、`count` 四组参数长度一致，因此调用时不能省略 `count` 和 `maxIdx`，不要依赖接口文档中的默认值。
 
 **回包：**
 
@@ -149,20 +156,23 @@
 | `booksimilar.books` | 推荐书籍数组 |
 | `booksimilar.books[].idx` | 结果序号（下次请求 maxIdx 传最后一条的 idx） |
 | `booksimilar.books[].book.bookInfo` | 书籍信息（bookId, title, author, cover 等） |
+| `booksimilar.books[].book.bookInfo.readerLink` | 阅读器跳转链接；展示为 `[打开阅读]({readerLink})` |
+| `booksimilar.books[].book.bookInfo.deepLink` | 书籍详情跳转链接；没有 `readerLink` 时可展示为 `[查看详情]({deepLink})` |
 
 ## 工作流
 
 1. **无参数**：调 `/book/recommend` 获取个性化推荐（为你推荐）。
-2. **有 bookId**：调 `/book/similar` 推荐相似书。
+2. **有 bookId**：调 `/book/similar` 推荐相似书，必须显式传 `count` 和 `maxIdx`；首次推荐 `count=12`、`maxIdx=0`。
 3. **有关键词**：调 `/store/search` 搜索发现。
 4. 用户对推荐的书感兴趣时，调 `/book/info` 获取完整信息。
 5. 翻页（recommend）：用 `searchIdx` 作为下次的 `maxIdx`。
-6. 翻页（similar）：用最后一条的 `idx` 作为 `maxIdx`，带上 `sessionId`。
+6. 翻页（similar）：用最后一条的 `idx` 作为 `maxIdx`，继续显式传 `count`，带上 `sessionId`。
 
 ## 输出格式
 - 推荐列表用编号展示，每本书含书名、作者、评分、推荐理由
 - 提示用户可选择编号查看详情或继续推荐更多
-
+- 无推荐结果时回复：`暂时没有找到合适的推荐，换个关键词试试？`
+- 接口调用失败时回复：`推荐数据获取失败，请稍后再试~`
 # notes — 笔记/划线
 
 本文档区分两种口径：
@@ -283,6 +293,10 @@
 | `reviews` | 想法/点评数组 |
 | `reviews[].review.reviewId` | 唯一 ID |
 | `reviews[].review.content` | 内容文本 |
+| `reviews[].review.abstract` | 想法对应的划线原文。仅划线想法等能定位到原文的内容有值，整本书评或章节点评可能为空或不存在 |
+| `reviews[].review.range` | 划线原文位置范围，格式如 `"2959-3007"`。仅能定位到原文的内容有值 |
+| `reviews[].review.chapterUid` | 章节 UID。章节相关内容可能有值 |
+| `reviews[].review.chapterIdx` | 章节序号。章节相关内容可能有值 |
 | `reviews[].review.createTime` | 创建时间 |
 | `reviews[].review.star` | 评分（0-5，-1=无评分） |
 | `reviews[].review.chapterName` | 所在章节名（章节点评时有值，书评为空） |
@@ -290,6 +304,8 @@
 | `totalCount` | 总条数 |
 | `hasMore` | 是否有更多（1=有） |
 | `synckey` | 翻页游标（下次请求传入） |
+
+> `abstract` 和 `range` 是条件字段：如果想法是针对某段划线/原文发表的，应优先用它们展示"原文 + 想法"；如果是整本书评、章节点评或普通想法，可能没有对应原文。
 
 ### `/book/underlines` — 章节划线热度统计
 
@@ -434,13 +450,20 @@
 - **内容导出 = 划线内容 + 想法/点评内容**；当前不能导出书签内容。
 - `reviewCount` 已包含个人点评/书评想法，计算总笔记数时不要再额外加“点评数”。
 - 当用户说“所有笔记内容”时，必须同时查询 `/book/bookmarklist` 和 `/review/list/mine`，不能只返回划线。
-
-
 # profile — 用户信息与阅读统计
 
 ## 说明
 
-通过组合已有接口获取用户阅读概况。
+通过组合 `/shelf/sync`、`/book/getprogress`、`/user/notebooks` 获取用户阅读概况。
+
+## 核心约束
+
+1. 所有回复必须基于接口返回数据，不编造、不推断。
+2. 禁止输出中间推理过程，不暴露接口选择、参数拼装等内部过程。
+3. 书架数量必须按 `books.length + albums.length + (mp 非空 ? 1 : 0)` 计算；`albums[]` 是专辑/有声书，也属于书架里的书，不能只统计 `books[]`。
+4. 阅读进度只查最近 5 本电子书：从 `books[]` 按 `readUpdateTime` 降序取前 5 本，逐个调 `/book/getprogress`，避免大书架导致过多调用。
+5. 阅读时长字段单位为秒，展示时转为"X小时Y分钟"格式；Unix 时间戳展示为 `YYYY-MM-DD`。
+6. 展示书籍时，优先将回包中的 `readerLink` 展示为 `[打开阅读]({readerLink})`；没有 `readerLink` 但有 `deepLink` 时，展示为 `[查看详情]({deepLink})`；不要手动拼接链接。
 
 ## 工作流
 
@@ -450,16 +473,28 @@
 具体逻辑参考 `shelf.md`。
 
 ### 2. 获取阅读进度
-对书架中的书调 `/book/getprogress`，获取进度和阅读时长，具体见`book.md`
+从 `books[]` 中按 `readUpdateTime` 降序取最近阅读的前 5 本书，分别调 `/book/getprogress` 获取进度和累计阅读时长，具体见 `book.md`。
+
+注意：
+- 只对 `books[]` 中的电子书调 `/book/getprogress`，不要对 `albums[]` 专辑/有声书调用该接口。
+- `book.progress` 是 0-100 的整数，展示时必须带 `%`；只有 `progress=100` 且存在 `finishTime` 时才表示已读完。
+- `book.recordReadingTime` 是累计阅读时长，单位为秒。
 
 ### 3. 获取笔记
-调 `/book/bookmarklist`，获取划线数量，具体见`notes.md`
+调 `/user/notebooks` 获取笔记概览，展示有笔记的书籍数和总笔记数。这里只做概览，不导出单本书笔记内容。
+
+如果用户要查看某本书的具体笔记内容，再按 `notes.md` 调 `/book/bookmarklist` 和 `/review/list/mine`。
+
+### 4. 综合展示
+汇总书架总数、最近阅读进度和笔记概况。
 
 ## 输出格式
-- 综合书架和阅读进度信息，展示用户阅读概况
-- 每本书显示：书名、进度、最近阅读时间
-- 无参数时展示阅读概况（书架 + 最近阅读进度）
-
+- 无参数时展示阅读概况：书架总数 + 最近阅读的前 5 本进度 + 笔记概况。
+- 书架总数第一句给出可见条目数，并拆分电子书、专辑/有声书、文章收藏入口数量。
+- 每本书显示：书名、作者、进度百分比、累计阅读时长、最近阅读时间；优先附 `[打开阅读]({readerLink})`，没有 `readerLink` 时可附 `[查看详情]({deepLink})`。
+- 笔记概况显示：有笔记的书籍数、总笔记数。
+- 书架为空时回复：`你的书架还没有书哦，要不要去发现页看看推荐？`
+- 接口调用失败时回复：`阅读概况暂时无法获取，请稍后再试~`
 # readdata — 阅读统计
 
 查看个人阅读数据统计，包含阅读时长、天数、读书排行、偏好分析等。
@@ -588,10 +623,17 @@
 - **阅读统计**：读过本数、读完本数、阅读天数、笔记数等
 - **偏好分析**：偏好分类、偏好时段、偏好作者、偏好出版社/版权方（如有）
 - 时长单位统一转换：所有阅读时长字段均按秒处理，秒 → "x 小时 y 分钟"格式；不得把 `totalReadTime` 当成分钟或小时
-
+- 接口调用失败时回复：`阅读数据暂时无法获取，请稍后再试~`
 # review — 书籍点评
 
 书籍的公开点评（区别于个人笔记/划线，个人笔记见 `notes.md`）。
+
+## 核心约束
+
+1. 所有回复必须基于接口返回数据，不编造、不推断。
+2. 公开点评不属于个人笔记，是其他读者对书籍的评价；个人笔记/划线见 `notes.md`。
+3. 评分转换：20=一星，40=二星，60=三星，80=四星，100=五星。
+4. 禁止输出中间推理过程，不暴露接口选择、参数拼装等内部过程。
 
 ## 接口
 
@@ -645,6 +687,8 @@
 | `reviews[].review.review.book.title` | 书名 |
 | `reviews[].review.review.book.author` | 书籍作者 |
 
+> 注意：返回结构中存在双层 `review` 嵌套。`reviews[].review` 是列表条目包装对象；点评内容字段（如 `content`、`htmlContent`、`star`、`author`、`book`）位于内层 `reviews[].review.review.xxx`。
+
 ## 工作流
 
 1. 确定书籍：用户提供 bookId 直接使用，提供书名则先调 `/store/search` 获取 bookId。
@@ -661,10 +705,21 @@
 - 点评列表每条清晰分隔
 - 评分转为星级展示（100=⭐⭐⭐⭐⭐，80=⭐⭐⭐⭐，60=⭐⭐⭐，40=⭐⭐，20=⭐）
 - 长点评截取前 200 字，提示可展开
-
+- 时间戳展示时转为 `YYYY-MM-DD`，不要直接展示原始 Unix 时间戳
+- 无结果时回复：`这本书暂时还没有公开点评哦~`
+- 接口调用失败时回复：`点评数据获取失败，请稍后再试~`
 # search — 搜索
 
 支持多种搜索类型，通过 `scope` 参数切换 tab，来指定不同的搜索结果 tab 页面。
+
+## 核心约束
+
+1. 所有回复必须基于接口返回数据，不编造、不推断、不补充接口未返回的信息。
+2. `scope` 选择必须基于用户意图，不要默认全部使用 `scope=10`。
+3. 始终显式传 `scope`，不要依赖服务端默认值。
+4. 禁止输出中间推理过程，不要在回复中暴露 scope 选择逻辑、参数拼装思路等内部过程。
+5. 搜索结果是分页片段，不代表全量结果；回复中使用"为您找到"，不要使用"共有""一共""总共"等暗示结果完整的措辞。
+6. 请求参数 `scope` 和回包字段 `results[].scope` 不是同一个语义：找书时仍传 `scope=10`，但电子书分组回包可能是 `results[].scope=17`；不要用 `results[].scope == 10` 过滤电子书结果。
 
 ## 接口
 
@@ -675,7 +730,7 @@
 | 参数 | 类型 | 必填 | 说明 |
 |------|------|------|------|
 | `keyword` | string | 是 | 搜索关键词 |
-| `scope` | int | 否 | 搜索类型。Agent 应按下方“scope 选择指引”显式选择；未传时服务端默认 10（电子书） |
+| `scope` | int | 否 | 搜索类型。接口层可省略，但 Agent 必须按下方“scope 选择指引”显式选择；未传时服务端默认 10（电子书） |
 | `maxIdx` | int | 否 | 翻页偏移，默认 0 |
 | `count` | int | 否 | 每页数量，不传则服务端默认 15。用户未指定数量时不要传此参数 |
 
@@ -693,6 +748,8 @@
 | `2` | 公众号 | 搜索公众号 |
 | `4` | 文章 | 搜索公众号文章 |
 
+> `scope=17` 是服务端回包中电子书分组常见的加载/分页标识，不是 Agent 的首选请求参数。用户找书时仍按 `scope=10` 请求。
+
 **scope 选择指引（Agent 根据用户意图自动选择）：**
 - 用户明确说"搜书""找书""查某本书"或请求获取 bookId → `scope=10`（电子书）
 - 用户只说"搜一下 xx"，未说明要搜书/作者/文章/公众号等具体类型 → `scope=0`（全部）
@@ -705,6 +762,18 @@
 - 用户说"搜文章" → `scope=4`
 - 不要把"没特别指定"同时解释成 `scope=10` 和 `scope=0`；判断标准是：有明确找书意图用 `scope=10`，泛搜索用 `scope=0`。
 
+## 参数提取规则
+
+从用户输入中提取 `keyword` 时：
+
+1. 去掉"帮我""搜一下""找一下""有没有""请问"等口语化前缀/后缀，只保留核心检索词。
+2. 保留真正要搜索的实体或主题：
+   - "帮我搜一下三体" → `keyword=三体`
+   - "有没有刘慈欣的书" → `keyword=刘慈欣`
+   - "找一本关于量子力学的入门书" → `keyword=量子力学入门`
+3. 用户使用"这个作者""他的其他书"等代词时，结合对话上下文补全为实际实体名称再搜索。
+4. 同时提到书名和作者时，优先使用更具区分度的词作为 `keyword`，如"刘慈欣的三体"优先搜 `三体`。
+
 **回包（V3 格式）：**
 
 | 字段 | 说明 |
@@ -713,13 +782,15 @@
 | `hasMore` | 是否有更多（1=有, 0=无） |
 | `results` | 搜索结果分组数组 |
 | `results[].title` | 分组标题（如"电子书""作者"） |
-| `results[].scope` | 分组类型 |
+| `results[].scope` | 回包分组类型，不保证等于请求参数 `scope`。例如请求 `scope=10` 搜电子书时，电子书分组可能返回 `scope=17` |
 | `results[].scopeCount` | 该分组总结果数 |
 | `results[].currentCount` | 本次返回数量 |
 | `results[].books` | 书籍/结果数组 |
 | `results[].books[].searchIdx` | 搜索序号（用于翻页） |
 | `results[].books[].bookInfo` | 书籍信息对象 |
 | `results[].books[].bookInfo.bookId` | 书籍唯一标识 |
+| `results[].books[].bookInfo.readerLink` | 阅读器跳转链接；展示为 `[打开阅读]({readerLink})` |
+| `results[].books[].bookInfo.deepLink` | 书籍详情跳转链接；没有 `readerLink` 时可展示为 `[查看详情]({deepLink})` |
 | `results[].books[].bookInfo.title` | 书名 |
 | `results[].books[].bookInfo.author` | 作者 |
 | `results[].books[].bookInfo.cover` | 封面图 URL |
@@ -734,21 +805,26 @@
 | `results[].books[].newRatingCount` | 评分人数 |
 | `results[].books[].newRatingDetail` | 评分标签（如 `{"title":"神作"}` ） |
 
-> `scope=0`（全部）时 results 会返回多个分组（电子书、作者、书单等），每个分组有自己的 title 和 scope。
+> `scope=0`（全部）时 results 会返回多个分组（电子书、作者、书单等），每个分组有自己的 title 和 scope。展示时按回包内容处理，不要把请求 scope 当作分组过滤条件。
 
 ## 工作流
 
-1. 根据用户意图选择 `scope`，调 `/store/search`。
-2. 从 `results` 取搜索结果。单 tab 模式（scope>0）通常只有一个分组；全部模式（scope=0）有多个分组。
-3. 展示结果：书名、作者、评分、在读人数、分类。已下架（soldout=1）需标注。
+1. 根据用户意图选择 `scope`，调 `/store/search`，并显式传入 `scope`。
+2. 从 `results` 取搜索结果。单 tab 模式（scope>0）可能返回多个同类分组；全部模式（scope=0）有多个分组。
+3. 展示结果：书名、作者、评分、在读人数、分类。已下架（soldout=1）需标注；如有 `readerLink`，展示为 `[打开阅读]({readerLink})`；否则如有 `deepLink`，展示为 `[查看详情]({deepLink})`。
 4. 用户选择某本书后，调 `/book/info` 获取完整信息。
 5. 翻页：`hasMore` 为 1 时，用最后一条的 `searchIdx` 作为下一页的 `maxIdx`。
+
+### 结果处理细则
+
+- 用户找书时请求 `scope=10`；回包中标题为"电子书"或包含 `books` 的分组都可以展示，不要要求 `results[].scope == 10`。
 
 ## 输出格式
 - 搜索结果用编号列表展示，方便用户通过数字选择
 - scope=0 时按分组标题（电子书/作者/书单…）分区展示
 - 重点展示：书名、作者、评分、在读人数、分类
-
+- 空结果（`results` 为空数组或无匹配项）时回复：`抱歉，没有找到与"{keyword}"相关的结果。你可以换个关键词、检查错别字，或尝试更简短的关键词。`
+- 接口调用失败时回复：`搜索服务暂时不可用，请稍后再试。如果持续出现问题，可以换个关键词尝试。`
 # shelf — 书架管理
 
 ## 重要概念
@@ -774,6 +850,8 @@
 |------|------|
 | `books[]` | 可枚举的电子书/导入书/公众号类书籍条目数组，不含 `albums[]`，也不含 `mp` 文章收藏入口 |
 | `books[].bookId` | 书籍唯一标识 |
+| `books[].readerLink` | 阅读器跳转链接；展示为 `[打开阅读]({readerLink})` |
+| `books[].deepLink` | 书籍详情跳转链接；没有 `readerLink` 时可展示为 `[查看详情]({deepLink})` |
 | `books[].title` | 书名 |
 | `books[].author` | 作者 |
 | `books[].cover` | 封面图 URL |
@@ -896,177 +974,4 @@
 - 公开/私密阅读数量必须展示为遍历 `books[]`、`albums[]` 后得到的分组计数，并在 `mp` 非空时给私密阅读数量 +1
 - 传书名/bookId 时查看该书详情或进度
 - 涉及有声书/专辑/听书的问题，直接使用 `albums` 字段回答
-
----
-name: 微信读书
-description: 微信读书助手 — 搜索书籍、管理书架、查看笔记划线、浏览书评、阅读统计、发现推荐好书
-version: 1.0.3
----
-
-# WeRead — 微信读书助手
-
-通过 Agent API Gateway 调用微信读书接口，提供搜索、书架、笔记、书评等能力。
-
-## 支持的能力
-
-| 能力 | 说明 | 用户示例 | 详细说明 |
-|------|------|----------|----------|
-| 搜索书籍 | 在书城搜索 | "帮我搜一下三体" | `search.md` |
-| 书籍信息 | 查看书籍详情、章节目录、阅读进度 | "这本书有多少章" "我读到哪了" | `book.md` |
-| 书架管理 | 查看书架 | "看看我的书架" | `shelf.md` |
-| 阅读统计 | 阅读时长、天数、偏好分析、阅读统计摘要 | "我这个月读了多久" "今年读了几本书" | `readdata.md` |
-| 笔记划线 | 查看个人笔记数量与内容，包括划线、想法/点评、书签数量 | "看看我在三体里的笔记" "导出我的划线" "在这本书有多少笔记" | `notes.md` |
-| 章节热门划线 | 查看书籍/章节热门划线、划线热度及划线下想法 | "看看这章有什么热门划线" "这段话下面有什么想法" | `notes.md` |
-| 书籍点评 | 查看书籍的公开点评 | "三体这本书有什么点评？" "看看推荐的点评" | `review.md` |
-| 推荐好书 | 个性化推荐/相似推荐 | "给我推荐几本书" | `discover.md` |
-
-根据用户意图参考对应说明文件了解接口参数、回包结构和工作流。
-
----
-
-## 接口调用规范
-
-### 统一入口
-
-```
-POST https://i.weread.qq.com/api/agent/gateway
-```
-
-### 鉴权
-
-- Header：`Authorization: Bearer $WEREAD_API_KEY`
-- `WEREAD_API_KEY` 从环境变量获取，格式 `wrk-xxxxxxxx`
-- 若未设置，提示用户：`export WEREAD_API_KEY=<你的apikey>`
-- API Key 绑定用户身份（vid），需要用户身份的接口会自动注入，无需手动传 vid
-
-### 请求格式
-
-- **Method**：POST
-- **Content-Type**：application/json
-- **Body**：JSON，`api_name` 指定接口，其余为接口参数，**每次请求必须带 `skill_version`**
-
-```bash
-curl -X POST "https://i.weread.qq.com/api/agent/gateway" \
-  -H "Authorization: Bearer $WEREAD_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{"api_name": "/store/search", "keyword": "三体", "count": 10, "skill_version": "1.0.3"}'
-```
-
-### 请求 few-shot
-
-**正确：业务参数平铺在 body 顶层。**
-
-```json
-{"api_name":"/user/notebooks","count":100,"skill_version":"1.0.5"}
-```
-
-**正确：下一页继续平铺 `lastSort`。**
-
-```json
-{"api_name":"/user/notebooks","count":100,"lastSort":1516907353,"skill_version":"1.0.5"}
-```
-
-**错误：不要把业务参数包在 `params` 内。**
-
-```json
-{"api_name":"/user/notebooks","params":{"count":100,"lastSort":1516907353},"skill_version":"1.0.5"}
-```
-
-上面的错误写法会导致 `count`、`lastSort` 未被转发，后端按默认值返回第一页，看起来像分页失效。
-
-### 响应格式
-
-- JSON，回包经过字段裁剪，只返回核心字段
-- `errcode` 非 0 时表示错误，给出中文提示
-- 发送 `{"api_name": "/_list"}` 可查看所有可用接口及参数定义
-
-### 通用规则
-
-1. **版本上报**：每次请求 body 必须包含 `"skill_version": "1.0.3"`（取本文件顶部 version 字段的值），用于服务端检查版本更新。**如果回包中出现 `upgrade_info` 字段，必须立即暂停当前操作，按照 `upgrade_info.message` 中的指引完成升级，升级完成后再重新执行用户请求，不得忽略该字段**
-2. **参数平铺**：业务参数必须和 `api_name`、`skill_version` 放在同一层；不要包在 `params`、`data`、`body` 等对象里。只有接口文档明确声明的数组/对象字段（如 `/book/readreviews` 的 `reviews`）才允许作为业务字段传入。
-3. **能力文档预检**：调用任何接口前，必须先根据「支持的能力」表阅读对应说明文件（如阅读统计先读 `readdata.md`，书架先读 `shelf.md`），确认接口参数、字段含义、单位、计数口径和工作流；禁止仅凭字段名或经验猜测含义。
-4. **字段解释优先级**：解释接口回包时，以对应说明文件中的字段说明为准；如果回包字段名和直觉含义冲突，必须服从说明文件，不得直接翻译字段名。
-5. **bookId 解析**：用户输入书名时，先调 `/store/search` 获取 bookId，再执行后续操作
-6. **书架数量**：使用 `/shelf/sync` 回答“书架有多少本书/多少条目”时，必须按 `books.length + albums.length + (mp 非空 ? 1 : 0)` 计算；`albums[]` 是专辑/有声书，也属于书架里的书，详细规则见 `shelf.md`
-7. **结果展示**：列表用编号展示方便选择；搜索结果重点展示书名、作者、评分；展示接口回包信息时，字段**禁止**直接翻译，应该参考文件中的说明内容提供
-8. **上下文衔接**：对话中记住已查询的 bookId，后续操作无需用户重复提供
-9. **深度链接**：在展示划线、想法、章节等内容时，拼接对应的跳转链接方便用户直接在 App 中打开，具体格式见下方「深度链接（URL Schema）」章节
-10. **数据展示规范**：
-   - **时间戳**：所有 Unix 时间戳字段（如 `updateTime`、`createTime`、`finishTime`、`readUpdateTime` 等），**展示时须转为 YYYY-MM-DD 格式**（如 `1748563200` 展示为"2025-05-30"），不得直接展示原始数字
-   - **阅读时长**：单位为秒，展示时转为"X小时Y分钟"格式
-
----
-
-## 深度链接（URL Schema）
-
-在展示书籍、章节、划线等内容时，如果回包字段足以构造链接，应附上对应的跳转链接，方便用户点击后直接在微信读书 App 中打开对应位置。想法/点评不一定都有划线位置，只有具备 `chapterUid` 和 `range` 时才生成划线位置链接。
-
-### 打开书籍（跳转到上次阅读进度）
-
-```
-weread://reading?bId={bookId}
-```
-
-| 参数 | 说明 | 来源 |
-|------|------|------|
-| `bookId` | 书籍 ID | 各接口返回的 `bookId` |
-
-**示例**：
-
-```
-weread://reading?bId=3300045871
-```
-
-**使用场景**：
-- 展示书架列表时，每本书附上跳转链接
-- 展示搜索结果时，附上「打开阅读」链接
-- 展示阅读进度时，提供「继续阅读」链接
-
-### 跳转到指定章节
-
-```
-weread://reading?bId={bookId}&chapterUid={chapterUid}
-```
-
-| 参数 | 说明 | 来源 |
-|------|------|------|
-| `bookId` | 书籍 ID | 各接口返回的 `bookId` |
-| `chapterUid` | 章节 UID | `/book/chapterinfo` 返回的 `chapters[].chapterUid` |
-
-**示例**：
-
-```
-weread://reading?bId=3300045871&chapterUid=107
-```
-
-**使用场景**：
-- 展示章节目录时，每个章节附上跳转链接
-
-### 跳转到划线/想法所在位置
-
-```
-weread://bestbookmark?bookId={bookId}&chapterUid={chapterUid}&rangeStart={rangeStart}&rangeEnd={rangeEnd}&userVid={userVid}
-```
-
-| 参数 | 说明 | 来源 |
-|------|------|------|
-| `bookId` | 书籍 ID | 各接口返回的 `bookId` |
-| `chapterUid` | 章节 UID | 划线/想法所属的 `chapterUid` |
-| `rangeStart` | 划线起始位置 | `range` 字段中 `-` 前面的数字 |
-| `rangeEnd` | 划线结束位置 | `range` 字段中 `-` 后面的数字 |
-| `userVid` | 用户 VID | API Key 鉴权后自动关联的用户 ID（从 `/shelf/sync` 等接口的上下文获取，或省略） |
-
-> **range 解析**：划线接口返回的 `range` 格式为 `"起始-结束"`（如 `"900-2004"`），拆分后分别填入 `rangeStart` 和 `rangeEnd`。
-
-**示例**：
-
-```
-weread://bestbookmark?bookId=3300045871&chapterUid=107&rangeStart=900&rangeEnd=2004&userVid=583802764
-```
-
-**使用场景**：
-- 展示划线列表（`/book/bookmarklist`）时，每条划线附上跳转链接（`range` 字段可直接解析）
-- 展示热门划线（`/book/bestbookmarks`）时，每条附上跳转链接；`/book/underlines` 只是划线热度统计，不含划线文本
-- 展示想法（`/review/list/mine`、`/book/readreviews`）时，只有返回内容包含 `chapterUid` 和 `range` 时才附上跳转到对应划线位置的链接；整本书评或无法定位到划线的点评不强制生成该链接
-
-
+- 接口调用失败时回复：`书架信息暂时没拉到，请稍后再试~`
